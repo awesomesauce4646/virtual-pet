@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://nubkggdluy7u"]
+
+[ext_resource type="Script" uid="uid://bm2jegvyd30wj" path="res://pet.gd" id="1_s0gbd"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0af3v"]
+animations = [{
+"frames": [],
+"loop": 1,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": 1,
+"name": &"Run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j863a"]
+size = Vector2(44.5, 34.5)
+
+[node name="Node2D" type="Node2D" unique_id=625584119]
+script = ExtResource("1_s0gbd")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=789550521]
+position = Vector2(24, 40)
+sprite_frames = SubResource("SpriteFrames_0af3v")
+animation = &"Idle"
+
+[node name="Area2D" type="Area2D" parent="." unique_id=46219409]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=296506306]
+position = Vector2(109, 69)
+shape = SubResource("RectangleShape2D_j863a")
