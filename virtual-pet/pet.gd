@@ -8,19 +8,30 @@ var window_size = Vector2(150,150)
 var idle_timer = 0.0
 var is_idling = false
 
+var is_dragging = false
+var drag_offset = Vector2()
+
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var area = $Area2D
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
-	animated_sprite.play("Walk_Right")
+	animated_sprite.play("Run")
+	area.input_event.connect(_on_area_input)
 
 func _physics_process(delta: float) -> void:
+	if is_dragging:
+		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
+		var new_win_pos = mouse_pos - drag_offset
+		DisplayServer.window_set_position(Vector2i(new_win_pos))
+		return
+	
 	if is_idling:
 		idle_timer -= delta
 		if idle_timer <= 0:
 			is_idling = false
 			speed = 300
-			animated_sprite.play("Walk_Right")
+			animated_sprite.play("Run")
 		return
 	var window_position = Vector2(DisplayServer.window_get_position())
 	window_position += direction * speed * delta
@@ -44,3 +55,13 @@ func maybe_idle():
 		if r == 0:
 			animated_sprite.play("Idle")
 			speed = 0
+
+func _on_area_input(_viewport, event, _shape_idx):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			is_dragging = true
+			var mouse_pos = Vector2(DisplayServer.mouse_get_position())
+			var win_pos = Vector2(DisplayServer.window_get_position())
+			drag_offset = mouse_pos - win_pos
+		else:
+			is_dragging = false
