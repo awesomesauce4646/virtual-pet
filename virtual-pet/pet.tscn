@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cbslb2o8obawe" path="res://Black-Idle.png" id="2_s0gbd"]
 [ext_resource type="Texture2D" uid="uid://ekwhlvj1o0ab" path="res://Black-Run.png" id="3_j8hq5"]
 [ext_resource type="Texture2D" uid="uid://bp11cw4rt4vbk" path="res://Black-Sit.png" id="4_j8hq5"]
+[ext_resource type="Texture2D" uid="uid://cwemcuj032pvg" path="res://Black-Sleep.png" id="5_5bqq7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_11scu"]
 atlas = ExtResource("2_s0gbd")
@@ -105,6 +106,22 @@ region = Rect2(960, 0, 192, 192)
 atlas = ExtResource("4_j8hq5")
 region = Rect2(1152, 0, 192, 192)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_qqo4d"]
+atlas = ExtResource("5_5bqq7")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6e2du"]
+atlas = ExtResource("5_5bqq7")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_phljq"]
+atlas = ExtResource("5_5bqq7")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkavk"]
+atlas = ExtResource("5_5bqq7")
+region = Rect2(576, 0, 192, 192)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_0af3v"]
 animations = [{
 "frames": [{
@@ -196,6 +213,23 @@ animations = [{
 "loop": 1,
 "name": &"Sit",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 2.0,
+"texture": SubResource("AtlasTexture_qqo4d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6e2du")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_phljq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkavk")
+}],
+"loop": 1,
+"name": &"Sleep",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j863a"]
@@ -205,11 +239,10 @@ size = Vector2(149, 131)
 script = ExtResource("1_s0gbd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=789550521]
-position = Vector2(82, 54)
+position = Vector2(82, 55)
 sprite_frames = SubResource("SpriteFrames_0af3v")
-animation = &"Run"
-frame = 4
-frame_progress = 0.3074729
+animation = &"Sleep"
+frame_progress = 0.017367724
 
 [node name="Area2D" type="Area2D" parent="." unique_id=46219409]
 position = Vector2(-17, -49)
@@ -217,3 +250,7 @@ position = Vector2(-17, -49)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=296506306]
 position = Vector2(93.5, 133.5)
 shape = SubResource("RectangleShape2D_j863a")
+
+[node name="PopupMenu" type="PopupMenu" parent="." unique_id=617471648]
+oversampling_override = 1.0
+visible = true

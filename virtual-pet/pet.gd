@@ -16,12 +16,23 @@ var taskbar_y = usable.end.y
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var area = $Area2D
+@onready var menu = $PopupMenu
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
 	animated_sprite.play("Run")
 	area.input_event.connect(_on_area_input)
+	menu.add_item("Sleep", 0)
+	menu.id_pressed.connect(_on_menu_pressed)
 
+func _on_menu_pressed(id):
+	if id == 0:
+		is_idling = true
+		idle_timer = 7.0
+		speed = 0
+		animated_sprite.play("Sleep")
+		
+		
 func _physics_process(delta: float) -> void:
 	if is_dragging:
 		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
@@ -61,15 +72,12 @@ func maybe_idle():
 	if randf() < 0.3:
 		is_idling = true
 		idle_timer = randf_range(1.0, 3.0)
-		var r = randi() % 3
+		var r = randi() % 2
 		if r == 0:
 			animated_sprite.play("Idle")
 			speed = 0
-		elif r == 1:
-			animated_sprite.play("Sit")
-			speed = 0
 		else:
-			animated_sprite.play("Idle")
+			animated_sprite.play("Sit")
 			speed = 0
 
 func _on_area_input(_viewport, event, _shape_idx):
@@ -83,3 +91,12 @@ func _on_area_input(_viewport, event, _shape_idx):
 			drag_offset = mouse_pos - win_pos
 		else:
 			is_dragging = false
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		menu.popup_on_parent(Rect2i(Vector2i(event.position.x, event.position.y - 150), Vector2i.ZERO))
+		is_idling = true
+		speed = 0
+		idle_timer = 3.0
+		animated_sprite.play("Idle")
+		await get_tree().create_timer(3.0).timeout
+		speed = 300
+		
