@@ -24,6 +24,7 @@ func _ready():
 	area.input_event.connect(_on_area_input)
 	menu.add_item("Sleep", 0)
 	menu.id_pressed.connect(_on_menu_pressed)
+	menu.add_item("Feed", 1)
 
 func _on_menu_pressed(id):
 	if id == 0:
@@ -31,7 +32,11 @@ func _on_menu_pressed(id):
 		idle_timer = 7.0
 		speed = 0
 		animated_sprite.play("Sleep")
-		
+	if id == 1:
+		is_idling = true
+		idle_timer = 4.0
+		speed = 0
+		animated_sprite.play("Feed")
 		
 func _physics_process(delta: float) -> void:
 	if is_dragging:
@@ -47,7 +52,7 @@ func _physics_process(delta: float) -> void:
 		idle_timer -= delta
 		if idle_timer <= 0:
 			is_idling = false
-			speed = 300
+			speed = 300 
 			animated_sprite.play("Run")
 	
 	if window_position.y < ground_y:
@@ -72,12 +77,15 @@ func maybe_idle():
 	if randf() < 0.3:
 		is_idling = true
 		idle_timer = randf_range(1.0, 3.0)
-		var r = randi() % 2
+		var r = randi() % 3
 		if r == 0:
 			animated_sprite.play("Idle")
 			speed = 0
-		else:
+		elif r == 1:
 			animated_sprite.play("Sit")
+			speed = 0
+		else:
+			animated_sprite.play("Meow")
 			speed = 0
 
 func _on_area_input(_viewport, event, _shape_idx):
