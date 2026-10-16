@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0u0t2h44lkdt"
-path="res://.godot/imported/Black-Eat.png-209a5b56db1a7afb68e6ce76553e3e97.ctex"
+uid="uid://2po2xnosvyxa"
+path="res://.godot/imported/Black-Meow.png-a9e472e1ac8ac554a36045504c86cf96.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Black-Eat.png"
-dest_files=["res://.godot/imported/Black-Eat.png-209a5b56db1a7afb68e6ce76553e3e97.ctex"]
+source_file="res://sprites/Black-Meow.png"
+dest_files=["res://.godot/imported/Black-Meow.png-a9e472e1ac8ac554a36045504c86cf96.ctex"]
 
 [params]
 

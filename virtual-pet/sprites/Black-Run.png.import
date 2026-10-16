@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2po2xnosvyxa"
-path="res://.godot/imported/Black-Meow.png-cbe139a4b2abcf0f65c30018a06d046c.ctex"
+uid="uid://ekwhlvj1o0ab"
+path="res://.godot/imported/Black-Run.png-ea31344108c9fb4f2b40d503dc62b5ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Black-Meow.png"
-dest_files=["res://.godot/imported/Black-Meow.png-cbe139a4b2abcf0f65c30018a06d046c.ctex"]
+source_file="res://sprites/Black-Run.png"
+dest_files=["res://.godot/imported/Black-Run.png-ea31344108c9fb4f2b40d503dc62b5ad.ctex"]
 
 [params]
 

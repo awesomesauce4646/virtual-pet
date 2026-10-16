@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ekwhlvj1o0ab"
-path="res://.godot/imported/Black-Run.png-89b1f731ae4de272937cd3d76c8fb071.ctex"
+uid="uid://bp11cw4rt4vbk"
+path="res://.godot/imported/Black-Sit.png-3c147789d1c2a1389a9063b9f6b21af6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Black-Run.png"
-dest_files=["res://.godot/imported/Black-Run.png-89b1f731ae4de272937cd3d76c8fb071.ctex"]
+source_file="res://sprites/Black-Sit.png"
+dest_files=["res://.godot/imported/Black-Sit.png-3c147789d1c2a1389a9063b9f6b21af6.ctex"]
 
 [params]
 

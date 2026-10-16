@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbslb2o8obawe"
-path="res://.godot/imported/Black-Idle.png-875653e23989cb90069abe9af27d66f5.ctex"
+uid="uid://b0u0t2h44lkdt"
+path="res://.godot/imported/Black-Eat.png-7a0c346a0c038480ac4059d886939fd8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Black-Idle.png"
-dest_files=["res://.godot/imported/Black-Idle.png-875653e23989cb90069abe9af27d66f5.ctex"]
+source_file="res://sprites/Black-Eat.png"
+dest_files=["res://.godot/imported/Black-Eat.png-7a0c346a0c038480ac4059d886939fd8.ctex"]
 
 [params]
 

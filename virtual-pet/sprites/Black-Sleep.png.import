@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cwemcuj032pvg"
-path="res://.godot/imported/Black-Sleep.png-5ee5b0901d9e220241ce09ad8d44e229.ctex"
+path="res://.godot/imported/Black-Sleep.png-5ab9a099f261e4f601a80ab3b83d60bf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Black-Sleep.png"
-dest_files=["res://.godot/imported/Black-Sleep.png-5ee5b0901d9e220241ce09ad8d44e229.ctex"]
+source_file="res://sprites/Black-Sleep.png"
+dest_files=["res://.godot/imported/Black-Sleep.png-5ab9a099f261e4f601a80ab3b83d60bf.ctex"]
 
 [params]
 

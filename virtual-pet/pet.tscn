@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://nubkggdluy7u"]
 
 [ext_resource type="Script" uid="uid://bm2jegvyd30wj" path="res://pet.gd" id="1_s0gbd"]
-[ext_resource type="Texture2D" uid="uid://cbslb2o8obawe" path="res://Black-Idle.png" id="2_s0gbd"]
-[ext_resource type="Texture2D" uid="uid://b0u0t2h44lkdt" path="res://Black-Eat.png" id="2_uvuc8"]
-[ext_resource type="Texture2D" uid="uid://ekwhlvj1o0ab" path="res://Black-Run.png" id="3_j8hq5"]
-[ext_resource type="Texture2D" uid="uid://2po2xnosvyxa" path="res://Black-Meow.png" id="3_qae7j"]
-[ext_resource type="Texture2D" uid="uid://bp11cw4rt4vbk" path="res://Black-Sit.png" id="4_j8hq5"]
-[ext_resource type="Texture2D" uid="uid://cwemcuj032pvg" path="res://Black-Sleep.png" id="5_5bqq7"]
+[ext_resource type="Texture2D" uid="uid://cbslb2o8obawe" path="res://sprites/Black-Idle.png" id="2_s0gbd"]
+[ext_resource type="Texture2D" uid="uid://b0u0t2h44lkdt" path="res://sprites/Black-Eat.png" id="2_uvuc8"]
+[ext_resource type="Texture2D" uid="uid://ekwhlvj1o0ab" path="res://sprites/Black-Run.png" id="3_j8hq5"]
+[ext_resource type="Texture2D" uid="uid://2po2xnosvyxa" path="res://sprites/Black-Meow.png" id="3_qae7j"]
+[ext_resource type="Texture2D" uid="uid://bp11cw4rt4vbk" path="res://sprites/Black-Sit.png" id="4_j8hq5"]
+[ext_resource type="Texture2D" uid="uid://cwemcuj032pvg" path="res://sprites/Black-Sleep.png" id="5_5bqq7"]
+[ext_resource type="FontFile" uid="uid://cpf85be7x55vu" path="res://BagelFatOne-Regular.ttf" id="8_x5jns"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynvmf"]
 atlas = ExtResource("2_uvuc8")
@@ -352,6 +353,22 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_j863a"]
 size = Vector2(149, 131)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vggrg"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
+bg_color = Color(0.11392204, 0.109730236, 0.11382852, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.38577506, 0, 0.09386415, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
 [node name="Node2D" type="Node2D" unique_id=625584119]
 script = ExtResource("1_s0gbd")
 
@@ -369,4 +386,11 @@ shape = SubResource("RectangleShape2D_j863a")
 
 [node name="PopupMenu" type="PopupMenu" parent="." unique_id=617471648]
 oversampling_override = 1.0
-visible = true
+size = Vector2i(2045, 100)
+theme_override_fonts/font = ExtResource("8_x5jns")
+theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
+
+[node name="Window" type="Window" parent="." unique_id=1762716440]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(150, 100)
