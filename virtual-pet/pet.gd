@@ -12,6 +12,9 @@ var is_dragging = false
 var is_thrown = false
 var drag_offset = Vector2()
 
+var menuOpened = false
+var menuCurrentlyOpened = false
+
 var usable = DisplayServer.screen_get_usable_rect()
 var taskbar_y = usable.end.y
 
@@ -21,6 +24,7 @@ var velocity = Vector2()
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var area = $Area2D
 @onready var menu = $PopupMenu
+@onready var window = $Window
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -45,7 +49,15 @@ func _on_menu_pressed(id):
 func _physics_process(delta: float) -> void:
 	if menu.visible:
 		return
+		
+	if Input.is_action_just_pressed("openMenu"):
+		menuCurrentlyOpened = !menuCurrentlyOpened
+	if menuCurrentlyOpened:
+		window.show()
+	else:
+		window.hide()
 	
+		
 	if is_dragging:
 		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
 		velocity = velocity.lerp((mouse_pos - last_mouse) / delta, 0.5)
