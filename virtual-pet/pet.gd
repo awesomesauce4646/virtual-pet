@@ -31,6 +31,7 @@ var velocity = Vector2()
 @onready var window = $Window
 @onready var meowSound = $MeowSound
 @onready var meowTwoSound = $MeowTwoSound
+@onready var particles = $Particles
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -53,6 +54,7 @@ func _on_menu_pressed(id):
 		animated_sprite.play("Feed")
 
 func _on_clicked():
+	particles.restart()
 	is_idling = true
 	idle_timer = 1.5
 	speed = 0

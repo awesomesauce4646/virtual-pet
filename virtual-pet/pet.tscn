@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://cwemcuj032pvg" path="res://sprites/Black-Sleep.png" id="5_5bqq7"]
 [ext_resource type="FontFile" uid="uid://cpf85be7x55vu" path="res://BagelFatOne-Regular.ttf" id="8_x5jns"]
 [ext_resource type="AudioStream" uid="uid://b48p1yg1mws3h" path="res://sounds/meow-1.mp3" id="9_w32yi"]
+[ext_resource type="Texture2D" uid="uid://bnft2brfb7kgx" path="res://sprites/benbushnell-pixel-heart-2779422.png" id="10_us1xf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynvmf"]
 atlas = ExtResource("2_uvuc8")
@@ -425,3 +426,12 @@ stream = SubResource("AudioStreamMP3_x5jns")
 
 [node name="MeowTwoSound" type="AudioStreamPlayer2D" parent="." unique_id=1957359960]
 stream = ExtResource("9_w32yi")
+
+[node name="Particles" type="CPUParticles2D" parent="." unique_id=517046738]
+position = Vector2(77, 40)
+emitting = false
+texture = ExtResource("10_us1xf")
+one_shot = true
+randomness = 0.45
+emission_shape = 1
+emission_sphere_radius = 68.34
