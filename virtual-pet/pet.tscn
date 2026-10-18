@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bp11cw4rt4vbk" path="res://sprites/Black-Sit.png" id="4_j8hq5"]
 [ext_resource type="Texture2D" uid="uid://cwemcuj032pvg" path="res://sprites/Black-Sleep.png" id="5_5bqq7"]
 [ext_resource type="FontFile" uid="uid://cpf85be7x55vu" path="res://BagelFatOne-Regular.ttf" id="8_x5jns"]
+[ext_resource type="Texture2D" uid="uid://l8tevb0nh7rx" path="res://sprites/bean.jpg" id="9_621w0"]
 [ext_resource type="AudioStream" uid="uid://b48p1yg1mws3h" path="res://sounds/meow-1.mp3" id="9_w32yi"]
 [ext_resource type="Texture2D" uid="uid://bnft2brfb7kgx" path="res://sprites/benbushnell-pixel-heart-2779422.png" id="10_us1xf"]
 
@@ -397,29 +398,63 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 
 [node name="Window" type="Window" parent="." unique_id=1762716440]
 oversampling_override = 1.0
-position = Vector2i(200, 315)
-size = Vector2i(300, 200)
+position = Vector2i(0, 36)
+size = Vector2i(400, 300)
 minimize_disabled = true
 maximize_disabled = true
 
 [node name="ColorRect" type="ColorRect" parent="Window" unique_id=743266425]
 offset_left = -14.0
 offset_top = -5.0
-offset_right = 309.0
-offset_bottom = 213.0
+offset_right = 417.0
+offset_bottom = 305.0
 color = Color(0.26095545, 0, 0.034243464, 1)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Window" unique_id=186010161]
-offset_left = 18.0
-offset_right = 284.0
-offset_bottom = 194.0
+[node name="BeanPicture" type="TextureRect" parent="Window" unique_id=1671559546]
+visible = false
+offset_left = 61.0
+offset_top = 29.0
+offset_right = 332.0
+offset_bottom = 214.0
+texture = ExtResource("9_621w0")
+expand_mode = 1
+
+[node name="Text" type="RichTextLabel" parent="Window" unique_id=186010161]
+offset_left = 31.0
+offset_top = 17.0
+offset_right = 367.0
+offset_bottom = 227.0
 theme_override_fonts/normal_font = ExtResource("8_x5jns")
-theme_override_font_sizes/normal_font_size = 21
-text = "
-Thanks for using BeanPet!
+theme_override_font_sizes/normal_font_size = 22
+text = "Thanks for using BeanPet!
 Bean is the name of the cat you see running around on your screen.
 "
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="Window" unique_id=2005499253]
+offset_left = 12.0
+offset_top = 238.0
+offset_right = 154.0
+offset_bottom = 293.0
+theme_override_fonts/font = ExtResource("8_x5jns")
+text = "ABOUT BEAN"
+
+[node name="Button2" type="Button" parent="Window" unique_id=1826563598]
+offset_left = 246.0
+offset_top = 238.0
+offset_right = 388.0
+offset_bottom = 293.0
+theme_override_fonts/font = ExtResource("8_x5jns")
+text = "BEAN PICTURE"
+
+[node name="Button3" type="Button" parent="Window" unique_id=1841221059]
+offset_left = 166.0
+offset_top = 238.0
+offset_right = 236.0
+offset_bottom = 293.0
+theme_override_fonts/font = ExtResource("8_x5jns")
+text = "HOME"
 
 [node name="MeowSound" type="AudioStreamPlayer2D" parent="." unique_id=937604454]
 stream = SubResource("AudioStreamMP3_x5jns")
@@ -435,3 +470,12 @@ one_shot = true
 randomness = 0.45
 emission_shape = 1
 emission_sphere_radius = 68.34
+
+[node name="GameWindow" type="Window" parent="." unique_id=2103730347]
+oversampling_override = 1.0
+position = Vector2i(500, 250)
+size = Vector2i(500, 500)
+
+[connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Window/Button2" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="Window/Button3" to="." method="_on_button_3_pressed"]

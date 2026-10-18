@@ -32,6 +32,11 @@ var velocity = Vector2()
 @onready var meowSound = $MeowSound
 @onready var meowTwoSound = $MeowTwoSound
 @onready var particles = $Particles
+@onready var windowText = $Window/Text
+@onready var aboutButton = $Window/Button
+@onready var pictureButton = $Window/Button2
+@onready var beanPic = $Window/BeanPicture
+@onready var homeButton = $Window/Button3
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -40,6 +45,7 @@ func _ready():
 	menu.add_item("Sleep", 0)
 	menu.id_pressed.connect(_on_menu_pressed)
 	menu.add_item("Feed", 1)
+	menu.add_item("Play", 2)
 
 func _on_menu_pressed(id):
 	if id == 0:
@@ -52,7 +58,9 @@ func _on_menu_pressed(id):
 		idle_timer = 4.0
 		speed = 0
 		animated_sprite.play("Feed")
-
+	if id == 2:
+		pass
+	
 func _on_clicked():
 	particles.restart()
 	is_idling = true
@@ -183,3 +191,21 @@ func _on_area_input(_viewport, event, _shape_idx):
 		speed = 0
 		idle_timer = 3.0
 		animated_sprite.play("Idle")
+
+
+func _on_button_pressed() -> void:
+	windowText.show()
+	beanPic.hide()
+	windowText.text = "Bean is our beloved robotics shop cat who used to be a stray on the property. The mentor took her in, and now she roams around as we build the robot!"
+
+
+func _on_button_2_pressed() -> void:
+	beanPic.show()
+	windowText.hide()
+
+
+func _on_button_3_pressed() -> void:
+	beanPic.hide()
+	windowText.show()
+	windowText.text = "Thanks for using BeanPet!
+Bean is the name of the cat you see running around on your screen."
