@@ -396,7 +396,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 
 [node name="Window" type="Window" parent="." unique_id=1762716440]
 oversampling_override = 1.0
-position = Vector2i(200, 399)
+position = Vector2i(200, 315)
 size = Vector2i(300, 200)
 minimize_disabled = true
 maximize_disabled = true

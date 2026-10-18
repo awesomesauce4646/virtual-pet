@@ -1,5 +1,7 @@
 extends Node2D
 
+const DRAG_THRESHOLD = 6.0
+
 var speed = 300
 var direction = Vector2(1,0)
 var screen_size = Vector2()
@@ -11,6 +13,8 @@ var is_idling = false
 var is_dragging = false
 var is_thrown = false
 var drag_offset = Vector2()
+var press_pos = Vector2()
+var drag_moved = false
 
 var menuOpened = false
 var menuCurrentlyOpened = false
@@ -48,11 +52,25 @@ func _on_menu_pressed(id):
 		speed = 0
 		animated_sprite.play("Feed")
 
+func _on_clicked():
+	is_idling = true
+	idle_timer = 1.5
+	speed = 0
+	animated_sprite.play("Meow")
+	var r = randi() % 2
+	if r == 0:
+		meowSound.play()
+	else:
+		meowTwoSound.play()
+
 func _physics_process(delta: float) -> void:
 	if is_dragging:
+		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
 		if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			is_dragging = false
-			if velocity.length() > 50:
+			if not drag_moved:
+				_on_clicked()
+			elif velocity.length() > 50:
 				is_thrown = true
 				var r = randi() % 2
 				if r == 0:
@@ -64,11 +82,17 @@ func _physics_process(delta: float) -> void:
 				velocity = Vector2()
 			return
 
-		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
+		if not drag_moved:
+			if mouse_pos.distance_to(press_pos) < DRAG_THRESHOLD:
+				return
+			drag_moved = true
+			last_mouse = mouse_pos
+			if not is_idling:
+				animated_sprite.play("Idle")
+
 		velocity = velocity.lerp((mouse_pos - last_mouse) / delta, 0.5)
 		last_mouse = mouse_pos
-		var new_win_pos = mouse_pos - drag_offset
-		DisplayServer.window_set_position(Vector2i(new_win_pos))
+		DisplayServer.window_set_position(Vector2i(mouse_pos - drag_offset))
 		return
 
 	if menu.visible:
@@ -143,9 +167,9 @@ func _on_area_input(_viewport, event, _shape_idx):
 		if event.pressed:
 			is_dragging = true
 			is_thrown = false
-			if not is_idling:
-				animated_sprite.play("Idle")
+			drag_moved = false
 			var mouse_pos = Vector2(DisplayServer.mouse_get_position())
+			press_pos = mouse_pos
 			velocity = Vector2()
 			last_mouse = mouse_pos
 			var win_pos = Vector2(DisplayServer.window_get_position())
