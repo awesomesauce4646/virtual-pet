@@ -1,6 +1,7 @@
 [gd_scene format=4 uid="uid://nubkggdluy7u"]
 
 [ext_resource type="Script" uid="uid://bm2jegvyd30wj" path="res://pet.gd" id="1_s0gbd"]
+[ext_resource type="Texture2D" uid="uid://u882n11yp56w" path="res://sprites/BlackDeath.png" id="2_6e2du"]
 [ext_resource type="Texture2D" uid="uid://cbslb2o8obawe" path="res://sprites/Black-Idle.png" id="2_s0gbd"]
 [ext_resource type="Texture2D" uid="uid://b0u0t2h44lkdt" path="res://sprites/Black-Eat.png" id="2_uvuc8"]
 [ext_resource type="Texture2D" uid="uid://ekwhlvj1o0ab" path="res://sprites/Black-Run.png" id="3_j8hq5"]
@@ -12,6 +13,38 @@
 [ext_resource type="Texture2D" uid="uid://l8tevb0nh7rx" path="res://sprites/bean.jpg" id="9_621w0"]
 [ext_resource type="AudioStream" uid="uid://b48p1yg1mws3h" path="res://sounds/meow-1.mp3" id="9_w32yi"]
 [ext_resource type="Texture2D" uid="uid://bnft2brfb7kgx" path="res://sprites/benbushnell-pixel-heart-2779422.png" id="10_us1xf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_01l5c"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psker"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j2yl"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mkinl"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdqe3"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qguoj"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y360h"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oy5m2"]
+atlas = ExtResource("2_6e2du")
+region = Rect2(1344, 0, 192, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ynvmf"]
 atlas = ExtResource("2_uvuc8")
@@ -251,6 +284,35 @@ region = Rect2(576, 0, 192, 192)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_0af3v"]
 animations = [{
+"frames": [{
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_01l5c")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_psker")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_1j2yl")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_mkinl")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_pdqe3")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_qguoj")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_y360h")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_oy5m2")
+}],
+"loop": 0,
+"name": &"Death",
+"speed": 5.0
+}, {
 "frames": [{
 "duration": 1.3,
 "texture": SubResource("AtlasTexture_ynvmf")
@@ -589,7 +651,7 @@ emission_sphere_radius = 68.34
 
 [node name="GameWindow" type="Window" parent="." unique_id=2103730347]
 oversampling_override = 1.0
-position = Vector2i(310, 36)
+position = Vector2i(0, 36)
 size = Vector2i(500, 500)
 unresizable = true
 always_on_top = true
@@ -658,8 +720,8 @@ vertical_alignment = 1
 [node name="GameCat" type="AnimatedSprite2D" parent="GameWindow" unique_id=1507813671]
 position = Vector2(113, 323)
 sprite_frames = SubResource("SpriteFrames_0af3v")
-animation = &"Jump"
-frame = 14
+animation = &"Death"
+frame = 7
 frame_progress = 1.0
 
 [node name="Area2D" type="Area2D" parent="GameWindow/GameCat" unique_id=327745128]

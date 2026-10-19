@@ -86,7 +86,7 @@ func game_over():
 	jump_cooldown_timer = 0.0
 	obstacle.position.x = OBSTACLE_START_X
 	gameCat.position.y = CAT_GROUND_Y
-	gameCat.play("Sit") 
+	gameCat.play("Death") 
 
 func _on_menu_pressed(id):
 	if id == 0:
@@ -104,6 +104,7 @@ func _on_menu_pressed(id):
 		if gameCurrentlyOpened:
 			gameWindow.show()
 			readyText.show()
+			gameCat.play("Sit")
 		else:
 			gameWindow.hide()
 			gameRunning = false
