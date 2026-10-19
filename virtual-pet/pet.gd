@@ -1,6 +1,7 @@
 extends Node2D
 
 const DRAG_THRESHOLD = 6.0
+const JUMP_COOLDOWN = .7
 
 var speed = 300
 var direction = Vector2(1,0)
@@ -18,6 +19,11 @@ var drag_moved = false
 
 var menuOpened = false
 var menuCurrentlyOpened = false
+var gameOpened = false
+var gameCurrentlyOpened = false
+
+var is_jumping = false
+var jump_cooldown_timer = 0.0
 
 var usable = DisplayServer.screen_get_usable_rect()
 var taskbar_y = usable.end.y
@@ -26,6 +32,7 @@ var last_mouse = Vector2()
 var velocity = Vector2()
 
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var gameCat = $GameWindow/GameCat
 @onready var area = $Area2D
 @onready var menu = $PopupMenu
 @onready var window = $Window
@@ -37,6 +44,7 @@ var velocity = Vector2()
 @onready var pictureButton = $Window/Button2
 @onready var beanPic = $Window/BeanPicture
 @onready var homeButton = $Window/Button3
+@onready var gameWindow = $GameWindow
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -46,6 +54,13 @@ func _ready():
 	menu.id_pressed.connect(_on_menu_pressed)
 	menu.add_item("Feed", 1)
 	menu.add_item("Play", 2)
+	gameCat.animation_finished.connect(_on_game_cat_animation_finished)
+
+func _on_game_cat_animation_finished():
+	if gameCat.animation == "Jump":
+		is_jumping = false
+		jump_cooldown_timer = JUMP_COOLDOWN
+		gameCat.play("Run")
 
 func _on_menu_pressed(id):
 	if id == 0:
@@ -59,7 +74,11 @@ func _on_menu_pressed(id):
 		speed = 0
 		animated_sprite.play("Feed")
 	if id == 2:
-		pass
+		gameCurrentlyOpened = !gameCurrentlyOpened
+		if gameCurrentlyOpened:
+			gameWindow.show()
+		else:
+			gameWindow.hide()
 	
 func _on_clicked():
 	particles.restart()
@@ -74,6 +93,9 @@ func _on_clicked():
 		meowTwoSound.play()
 
 func _physics_process(delta: float) -> void:
+	if jump_cooldown_timer > 0:
+		jump_cooldown_timer -= delta
+
 	if is_dragging:
 		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
 		if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -114,6 +136,15 @@ func _physics_process(delta: float) -> void:
 		window.show()
 	else:
 		window.hide()
+
+	if Input.is_action_just_pressed("startGame") && gameCurrentlyOpened:
+		if not is_jumping:
+			gameCat.play("Run")
+
+	if Input.is_action_just_pressed("jump") && gameCurrentlyOpened:
+		if not is_jumping and jump_cooldown_timer <= 0:
+			is_jumping = true
+			gameCat.play("Jump")
 
 	var window_position = Vector2(DisplayServer.window_get_position())
 	var ground_y = taskbar_y - window_size.y

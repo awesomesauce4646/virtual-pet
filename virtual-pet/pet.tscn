@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://ekwhlvj1o0ab" path="res://sprites/Black-Run.png" id="3_j8hq5"]
 [ext_resource type="Texture2D" uid="uid://2po2xnosvyxa" path="res://sprites/Black-Meow.png" id="3_qae7j"]
 [ext_resource type="Texture2D" uid="uid://bp11cw4rt4vbk" path="res://sprites/Black-Sit.png" id="4_j8hq5"]
+[ext_resource type="Texture2D" uid="uid://drgfndw6alw4o" path="res://sprites/Black-Jump.png" id="4_qqo4d"]
 [ext_resource type="Texture2D" uid="uid://cwemcuj032pvg" path="res://sprites/Black-Sleep.png" id="5_5bqq7"]
 [ext_resource type="FontFile" uid="uid://cpf85be7x55vu" path="res://BagelFatOne-Regular.ttf" id="8_x5jns"]
 [ext_resource type="Texture2D" uid="uid://l8tevb0nh7rx" path="res://sprites/bean.jpg" id="9_621w0"]
@@ -91,6 +92,66 @@ region = Rect2(1920, 0, 192, 192)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8t54o"]
 atlas = ExtResource("2_s0gbd")
 region = Rect2(2112, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_thlj6"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(0, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ksvew"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(192, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1e67j"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(384, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mubt1"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(576, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_evs2w"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(768, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ug623"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(960, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0cumx"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(1152, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxib7"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(1344, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v1it0"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(1536, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvife"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(1728, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhrcn"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(1920, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mbutx"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(2112, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80oak"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(2304, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpcum"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(2496, 0, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pq3cg"]
+atlas = ExtResource("4_qqo4d")
+region = Rect2(2688, 0, 192, 192)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rxurb"]
 atlas = ExtResource("3_qae7j")
@@ -261,6 +322,56 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_thlj6")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_ksvew")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_1e67j")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_mubt1")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_evs2w")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_ug623")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_0cumx")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_qxib7")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_v1it0")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_yvife")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_mhrcn")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_mbutx")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_80oak")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_rpcum")
+}, {
+"duration": 0.3,
+"texture": SubResource("AtlasTexture_pq3cg")
+}],
+"loop": 0,
+"name": &"Jump",
+"speed": 5.0
+}, {
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rxurb")
 }, {
@@ -287,22 +398,22 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.4,
 "texture": SubResource("AtlasTexture_0ccft")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": SubResource("AtlasTexture_myjb5")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": SubResource("AtlasTexture_m1av8")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": SubResource("AtlasTexture_djl34")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": SubResource("AtlasTexture_xypoy")
 }, {
-"duration": 1.0,
+"duration": 0.4,
 "texture": SubResource("AtlasTexture_2nba3")
 }],
 "loop": 1,
@@ -400,6 +511,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(400, 300)
+unresizable = true
+always_on_top = true
 minimize_disabled = true
 maximize_disabled = true
 
@@ -409,15 +522,6 @@ offset_top = -5.0
 offset_right = 417.0
 offset_bottom = 305.0
 color = Color(0.26095545, 0, 0.034243464, 1)
-
-[node name="BeanPicture" type="TextureRect" parent="Window" unique_id=1671559546]
-visible = false
-offset_left = 61.0
-offset_top = 29.0
-offset_right = 332.0
-offset_bottom = 214.0
-texture = ExtResource("9_621w0")
-expand_mode = 1
 
 [node name="Text" type="RichTextLabel" parent="Window" unique_id=186010161]
 offset_left = 31.0
@@ -439,6 +543,15 @@ offset_right = 154.0
 offset_bottom = 293.0
 theme_override_fonts/font = ExtResource("8_x5jns")
 text = "ABOUT BEAN"
+
+[node name="BeanPicture" type="TextureRect" parent="Window" unique_id=1671559546]
+visible = false
+offset_left = 61.0
+offset_top = 29.0
+offset_right = 332.0
+offset_bottom = 214.0
+texture = ExtResource("9_621w0")
+expand_mode = 1
 
 [node name="Button2" type="Button" parent="Window" unique_id=1826563598]
 offset_left = 246.0
@@ -473,8 +586,54 @@ emission_sphere_radius = 68.34
 
 [node name="GameWindow" type="Window" parent="." unique_id=2103730347]
 oversampling_override = 1.0
-position = Vector2i(500, 250)
+position = Vector2i(310, 36)
 size = Vector2i(500, 500)
+visible = false
+unresizable = true
+always_on_top = true
+minimize_disabled = true
+maximize_disabled = true
+
+[node name="ColorRect" type="ColorRect" parent="GameWindow" unique_id=834745518]
+offset_right = 499.0
+offset_bottom = 499.0
+color = Color(0.6182063, 0, 0.10429338, 1)
+
+[node name="Text" type="RichTextLabel" parent="GameWindow" unique_id=1690939306]
+offset_left = 76.0
+offset_top = 24.0
+offset_right = 415.0
+offset_bottom = 78.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 33
+text = "ENDLESS RUNNER"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Text2" type="RichTextLabel" parent="GameWindow" unique_id=1101023780]
+offset_left = 35.0
+offset_top = 66.0
+offset_right = 453.0
+offset_bottom = 121.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 20
+text = "PRESS ENTER TO START"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect2" type="ColorRect" parent="GameWindow" unique_id=1556092618]
+offset_left = -4.0
+offset_top = 387.0
+offset_right = 506.0
+offset_bottom = 569.0
+color = Color(0.13870043, 0.0018280413, 0.0035796794, 1)
+
+[node name="GameCat" type="AnimatedSprite2D" parent="GameWindow" unique_id=1507813671]
+position = Vector2(113, 323)
+sprite_frames = SubResource("SpriteFrames_0af3v")
+animation = &"Jump"
+frame = 14
+frame_progress = 1.0
 
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Window/Button2" to="." method="_on_button_2_pressed"]
