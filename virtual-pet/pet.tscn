@@ -513,6 +513,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(400, 300)
+visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -612,6 +613,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Text2" type="RichTextLabel" parent="GameWindow" unique_id=1101023780]
+visible = false
 offset_left = 35.0
 offset_top = 66.0
 offset_right = 453.0
@@ -640,6 +642,18 @@ offset_top = 387.0
 offset_right = 506.0
 offset_bottom = 569.0
 color = Color(0.13870043, 0.0018280413, 0.0035796794, 1)
+
+[node name="Score" type="RichTextLabel" parent="GameWindow" unique_id=1247864001]
+visible = false
+offset_left = -135.0
+offset_top = 408.0
+offset_right = 299.0
+offset_bottom = 529.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 27
+text = "SCORE: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="GameCat" type="AnimatedSprite2D" parent="GameWindow" unique_id=1507813671]
 position = Vector2(113, 323)

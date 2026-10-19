@@ -27,6 +27,7 @@ var gameCurrentlyOpened = false
 var gameRunning = false
 var is_jumping = false
 var jump_cooldown_timer = 0.0
+var score = 0
 
 var usable = DisplayServer.screen_get_usable_rect()
 var taskbar_y = usable.end.y
@@ -52,6 +53,8 @@ var velocity = Vector2()
 @onready var obstacle = $GameWindow/Obstacle
 @onready var readyText = $GameWindow/Text2
 @onready var gameOverText = $GameWindow/Text3
+@onready var scoreText = $GameWindow/Score
+
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -127,8 +130,10 @@ func _physics_process(delta: float) -> void:
 
 	if gameRunning:
 		obstacle.position.x += -500 * delta
+		scoreText.text = "SCORE: " + str(score)
 		if obstacle.position.x < -70:
 			obstacle.position.x = OBSTACLE_START_X
+			score = score + 1
 
 	if is_jumping:
 		gameCat.position.y += -300 * delta
@@ -180,6 +185,8 @@ func _physics_process(delta: float) -> void:
 		window.hide()
 
 	if Input.is_action_just_pressed("startGame") && gameCurrentlyOpened:
+		score = 0
+		scoreText.show()
 		readyText.hide()
 		gameOverText.hide()
 		if not is_jumping and not gameRunning:
