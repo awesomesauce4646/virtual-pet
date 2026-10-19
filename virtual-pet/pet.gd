@@ -22,6 +22,7 @@ var menuCurrentlyOpened = false
 var gameOpened = false
 var gameCurrentlyOpened = false
 
+var gameRunning = false
 var is_jumping = false
 var jump_cooldown_timer = 0.0
 
@@ -45,6 +46,7 @@ var velocity = Vector2()
 @onready var beanPic = $Window/BeanPicture
 @onready var homeButton = $Window/Button3
 @onready var gameWindow = $GameWindow
+@onready var obstacle = $GameWindow/Obstacle
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -79,6 +81,7 @@ func _on_menu_pressed(id):
 			gameWindow.show()
 		else:
 			gameWindow.hide()
+			gameCat.play("Sit")
 	
 func _on_clicked():
 	particles.restart()
@@ -95,6 +98,17 @@ func _on_clicked():
 func _physics_process(delta: float) -> void:
 	if jump_cooldown_timer > 0:
 		jump_cooldown_timer -= delta
+
+	if gameRunning:
+		obstacle.position.x += -500 * delta
+
+	if is_jumping:
+		gameCat.position.y += -300 * delta
+		if gameCat.position.y < 225.0:
+				gameCat.position.y = 225
+				is_jumping = false
+	else:
+			gameCat.position.y = min(gameCat.position.y + 300 * delta, 323.0)
 
 	if is_dragging:
 		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
@@ -140,7 +154,8 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("startGame") && gameCurrentlyOpened:
 		if not is_jumping:
 			gameCat.play("Run")
-
+			gameRunning = true
+			
 	if Input.is_action_just_pressed("jump") && gameCurrentlyOpened:
 		if not is_jumping and jump_cooldown_timer <= 0:
 			is_jumping = true
