@@ -1,7 +1,9 @@
 extends Node2D
 
 const DRAG_THRESHOLD = 6.0
-const JUMP_COOLDOWN = .7
+const JUMP_COOLDOWN = .6
+const OBSTACLE_START_X = 800.0
+const CAT_GROUND_Y = 323.0
 
 var speed = 300
 var direction = Vector2(1,0)
@@ -34,6 +36,7 @@ var velocity = Vector2()
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
+@onready var gameArea = $GameWindow/GameCat/Area2D
 @onready var area = $Area2D
 @onready var menu = $PopupMenu
 @onready var window = $Window
@@ -47,6 +50,8 @@ var velocity = Vector2()
 @onready var homeButton = $Window/Button3
 @onready var gameWindow = $GameWindow
 @onready var obstacle = $GameWindow/Obstacle
+@onready var readyText = $GameWindow/Text2
+@onready var gameOverText = $GameWindow/Text3
 
 func _ready():
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -57,12 +62,28 @@ func _ready():
 	menu.add_item("Feed", 1)
 	menu.add_item("Play", 2)
 	gameCat.animation_finished.connect(_on_game_cat_animation_finished)
+	gameArea.area_entered.connect(_on_game_cat_hit)
 
 func _on_game_cat_animation_finished():
 	if gameCat.animation == "Jump":
 		is_jumping = false
 		jump_cooldown_timer = JUMP_COOLDOWN
 		gameCat.play("Run")
+
+func _on_game_cat_hit(other_area):
+	if not gameRunning:
+		return
+	if other_area == obstacle or other_area.get_parent() == obstacle:
+		game_over()
+
+func game_over():
+	gameOverText.show()
+	gameRunning = false
+	is_jumping = false
+	jump_cooldown_timer = 0.0
+	obstacle.position.x = OBSTACLE_START_X
+	gameCat.position.y = CAT_GROUND_Y
+	gameCat.play("Sit") 
 
 func _on_menu_pressed(id):
 	if id == 0:
@@ -79,10 +100,15 @@ func _on_menu_pressed(id):
 		gameCurrentlyOpened = !gameCurrentlyOpened
 		if gameCurrentlyOpened:
 			gameWindow.show()
+			readyText.show()
 		else:
 			gameWindow.hide()
+			gameRunning = false
+			is_jumping = false
+			obstacle.position.x = OBSTACLE_START_X
+			gameCat.position.y = CAT_GROUND_Y
 			gameCat.play("Sit")
-	
+
 func _on_clicked():
 	particles.restart()
 	is_idling = true
@@ -101,14 +127,16 @@ func _physics_process(delta: float) -> void:
 
 	if gameRunning:
 		obstacle.position.x += -500 * delta
+		if obstacle.position.x < -70:
+			obstacle.position.x = OBSTACLE_START_X
 
 	if is_jumping:
 		gameCat.position.y += -300 * delta
 		if gameCat.position.y < 225.0:
-				gameCat.position.y = 225
-				is_jumping = false
+			gameCat.position.y = 225
+			is_jumping = false
 	else:
-			gameCat.position.y = min(gameCat.position.y + 300 * delta, 323.0)
+		gameCat.position.y = min(gameCat.position.y + 300 * delta, CAT_GROUND_Y)
 
 	if is_dragging:
 		var mouse_pos = Vector2(DisplayServer.mouse_get_position())
@@ -152,10 +180,13 @@ func _physics_process(delta: float) -> void:
 		window.hide()
 
 	if Input.is_action_just_pressed("startGame") && gameCurrentlyOpened:
-		if not is_jumping:
+		readyText.hide()
+		gameOverText.hide()
+		if not is_jumping and not gameRunning:
+			obstacle.position.x = OBSTACLE_START_X
 			gameCat.play("Run")
 			gameRunning = true
-			
+
 	if Input.is_action_just_pressed("jump") && gameCurrentlyOpened:
 		if not is_jumping and jump_cooldown_timer <= 0:
 			is_jumping = true
