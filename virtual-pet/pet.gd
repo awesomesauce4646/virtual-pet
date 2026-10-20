@@ -4,6 +4,8 @@ const DRAG_THRESHOLD = 6.0
 const JUMP_COOLDOWN = .6
 const OBSTACLE_START_X = 800.0
 const CAT_GROUND_Y = 323.0
+const HAPPINESS_INTERVAL = 30.0
+const HAPPINESS_DECAY = 2
 
 var speed = 300
 var direction = Vector2(1,0)
@@ -23,6 +25,7 @@ var menuOpened = false
 var menuCurrentlyOpened = false
 var gameOpened = false
 var gameCurrentlyOpened = false
+var statsCurrentlyOpened = false
 
 var gameRunning = false
 var is_jumping = false
@@ -34,6 +37,9 @@ var taskbar_y = usable.end.y
 
 var last_mouse = Vector2()
 var velocity = Vector2()
+
+var happiness = 100
+var happiness_timer = 0.0
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
@@ -54,9 +60,22 @@ var velocity = Vector2()
 @onready var readyText = $GameWindow/Text2
 @onready var gameOverText = $GameWindow/Text3
 @onready var scoreText = $GameWindow/Score
+@onready var happinessText = $StatsWindow/Happiness
+@onready var statsWindow = $StatsWindow
+
+func save_stats():
+	var config = ConfigFile.new()
+	config.set_value("pet", "happiness", happiness)
+	config.save("user://pet.cfg")
+
+func load_stats():
+	var config = ConfigFile.new()
+	if config.load("user://pet.cfg") == OK:
+		happiness = config.get_value("pet", "happiness")
 
 
 func _ready():
+	load_stats()
 	screen_size = Vector2(DisplayServer.screen_get_size())
 	animated_sprite.play("Run")
 	area.input_event.connect(_on_area_input)
@@ -64,8 +83,30 @@ func _ready():
 	menu.id_pressed.connect(_on_menu_pressed)
 	menu.add_item("Feed", 1)
 	menu.add_item("Play", 2)
+	menu.add_item("Stats", 3)
 	gameCat.animation_finished.connect(_on_game_cat_animation_finished)
 	gameArea.area_entered.connect(_on_game_cat_hit)
+	window.close_requested.connect(_on_window_close_requested)
+	gameWindow.close_requested.connect(_on_game_window_close_requested)
+	statsWindow.close_requested.connect(_on_stats_window_close_requested)
+
+
+func _on_window_close_requested():
+	menuCurrentlyOpened = false
+	window.hide()
+func _on_stats_window_close_requested():
+	statsCurrentlyOpened = false
+	statsWindow.hide()
+
+func _on_game_window_close_requested():
+	gameCurrentlyOpened = false
+	gameWindow.hide()
+	gameRunning = false
+	is_jumping = false
+	jump_cooldown_timer = 0.0
+	obstacle.position.x = OBSTACLE_START_X
+	gameCat.position.y = CAT_GROUND_Y
+	gameCat.play("Sit")
 
 func _on_game_cat_animation_finished():
 	if gameCat.animation == "Jump":
@@ -112,6 +153,12 @@ func _on_menu_pressed(id):
 			obstacle.position.x = OBSTACLE_START_X
 			gameCat.position.y = CAT_GROUND_Y
 			gameCat.play("Sit")
+	if id == 3:
+		statsCurrentlyOpened = !statsCurrentlyOpened
+		if statsCurrentlyOpened:
+			statsWindow.show()
+		else:
+			statsWindow.hide()
 
 func _on_clicked():
 	particles.restart()
@@ -126,6 +173,12 @@ func _on_clicked():
 		meowTwoSound.play()
 
 func _physics_process(delta: float) -> void:
+	happiness_timer += delta
+	if happiness_timer >= HAPPINESS_INTERVAL:
+		happiness_timer -= HAPPINESS_INTERVAL
+		happiness = max(happiness - HAPPINESS_DECAY, 0)
+		save_stats()
+
 	if jump_cooldown_timer > 0:
 		jump_cooldown_timer -= delta
 

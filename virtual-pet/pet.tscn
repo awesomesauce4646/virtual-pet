@@ -653,6 +653,7 @@ emission_sphere_radius = 68.34
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(500, 500)
+visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -745,6 +746,43 @@ scale = Vector2(2.3199997, 2.3575294)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GameWindow/Obstacle/Area2D" unique_id=151104286]
 shape = SubResource("RectangleShape2D_7304a")
+
+[node name="StatsWindow" type="Window" parent="." unique_id=1338235290]
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(400, 300)
+unresizable = true
+always_on_top = true
+minimize_disabled = true
+maximize_disabled = true
+
+[node name="ColorRect" type="ColorRect" parent="StatsWindow" unique_id=1692056141]
+offset_left = -15.0
+offset_top = -24.0
+offset_right = 416.0
+offset_bottom = 332.0
+color = Color(0.6438666, 0, 0.2463327, 1)
+
+[node name="Title" type="RichTextLabel" parent="StatsWindow" unique_id=1737461089]
+offset_left = 131.0
+offset_top = 3.0
+offset_right = 270.0
+offset_bottom = 65.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 35
+text = "STATS"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Happiness" type="RichTextLabel" parent="StatsWindow" unique_id=1030407903]
+offset_top = 56.0
+offset_right = 131.0
+offset_bottom = 105.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 24
+text = "MOOD:"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Window/Button2" to="." method="_on_button_2_pressed"]
