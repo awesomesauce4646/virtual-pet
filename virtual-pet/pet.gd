@@ -71,7 +71,7 @@ func save_stats():
 func load_stats():
 	var config = ConfigFile.new()
 	if config.load("user://pet.cfg") == OK:
-		happiness = config.get_value("pet", "happiness")
+		happiness = clamp(config.get_value("pet", "happiness", 100), 0, 100)
 
 
 func _ready():
@@ -143,6 +143,8 @@ func _on_menu_pressed(id):
 	if id == 2:
 		gameCurrentlyOpened = !gameCurrentlyOpened
 		if gameCurrentlyOpened:
+			happiness = min(happiness + 20, 100)
+			save_stats()
 			gameWindow.show()
 			readyText.show()
 			gameCat.play("Sit")
@@ -174,6 +176,7 @@ func _on_clicked():
 
 func _physics_process(delta: float) -> void:
 	happiness_timer += delta
+	happinessText.text = "MOOD: " + str(happiness)
 	if happiness_timer >= HAPPINESS_INTERVAL:
 		happiness_timer -= HAPPINESS_INTERVAL
 		happiness = max(happiness - HAPPINESS_DECAY, 0)
