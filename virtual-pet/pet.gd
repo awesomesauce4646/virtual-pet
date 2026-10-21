@@ -76,12 +76,16 @@ var hunger_timer = 0.0
 func save_stats():
 	var config = ConfigFile.new()
 	config.set_value("pet", "happiness", happiness)
+	config.set_value("pet", "energy", energy)
+	config.set_value("pet", "hunger", hunger)
 	config.save("user://pet.cfg")
 
 func load_stats():
 	var config = ConfigFile.new()
 	if config.load("user://pet.cfg") == OK:
 		happiness = clamp(config.get_value("pet", "happiness", 100), 0, 100)
+		energy = clamp(config.get_value("pet", "energy", 100), 0, 100)
+		hunger = clamp(config.get_value("pet", "hunger", 100), 0, 100)
 
 
 func _ready():
@@ -146,12 +150,14 @@ func _on_menu_pressed(id):
 		speed = 0
 		animated_sprite.play("Sleep")
 		energy = min(energy + 30, 100)
+		save_stats()
 	if id == 1:
 		is_idling = true
 		idle_timer = 4.0
 		speed = 0
 		animated_sprite.play("Feed")
 		hunger = min(hunger + 15, 100)
+		save_stats()
 	if id == 2:
 		gameCurrentlyOpened = !gameCurrentlyOpened
 		if gameCurrentlyOpened:
@@ -178,8 +184,10 @@ func _on_clicked():
 	particles.restart()
 	if happiness < 99.5:
 		happiness = happiness + .5
+		save_stats()
 	else:
 		happiness = 100
+		save_stats()
 	is_idling = true
 	idle_timer = 1.5
 	speed = 0

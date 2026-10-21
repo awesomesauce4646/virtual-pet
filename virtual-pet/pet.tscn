@@ -586,7 +586,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 [node name="Window" type="Window" parent="." unique_id=1762716440]
 oversampling_override = 1.0
 position = Vector2i(0, 36)
-size = Vector2i(400, 300)
+size = Vector2i(425, 325)
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -595,14 +595,14 @@ maximize_disabled = true
 [node name="ColorRect" type="ColorRect" parent="Window" unique_id=743266425]
 offset_left = -14.0
 offset_top = -5.0
-offset_right = 417.0
-offset_bottom = 305.0
+offset_right = 441.0
+offset_bottom = 414.0
 color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
 [node name="Text" type="RichTextLabel" parent="Window" unique_id=186010161]
-offset_left = 31.0
+offset_left = 44.0
 offset_top = 17.0
-offset_right = 367.0
+offset_right = 380.0
 offset_bottom = 227.0
 theme_override_fonts/normal_font = ExtResource("8_x5jns")
 theme_override_font_sizes/normal_font_size = 22
@@ -613,9 +613,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Button" type="Button" parent="Window" unique_id=2005499253]
-offset_left = 12.0
+offset_left = 16.0
 offset_top = 238.0
-offset_right = 154.0
+offset_right = 158.0
 offset_bottom = 293.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
@@ -632,9 +632,9 @@ texture = ExtResource("9_621w0")
 expand_mode = 1
 
 [node name="Button2" type="Button" parent="Window" unique_id=1826563598]
-offset_left = 246.0
+offset_left = 266.0
 offset_top = 238.0
-offset_right = 388.0
+offset_right = 408.0
 offset_bottom = 293.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
@@ -642,9 +642,9 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_11scu")
 text = "BEAN PICTURE"
 
 [node name="Button3" type="Button" parent="Window" unique_id=1841221059]
-offset_left = 166.0
+offset_left = 179.0
 offset_top = 238.0
-offset_right = 236.0
+offset_right = 249.0
 offset_bottom = 293.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
