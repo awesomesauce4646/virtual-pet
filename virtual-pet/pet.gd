@@ -58,7 +58,8 @@ var hunger_timer = 0.0
 @onready var meowSound = $MeowSound
 @onready var meowTwoSound = $MeowTwoSound
 @onready var particles = $Particles
-@onready var windowText = $Window/Text
+@onready var windowTitle = $Window/Title
+@onready var windowSubtext = $Window/Subline
 @onready var aboutButton = $Window/Button
 @onready var pictureButton = $Window/Button2
 @onready var beanPic = $Window/BeanPicture
@@ -72,6 +73,9 @@ var hunger_timer = 0.0
 @onready var statsWindow = $StatsWindow
 @onready var energyText = $StatsWindow/Energy
 @onready var hungerText = $StatsWindow/Hunger
+@onready var deathSound = $DeathSound
+@onready var jumpSound = $JumpSound
+
 
 func save_stats():
 	var config = ConfigFile.new()
@@ -142,6 +146,7 @@ func game_over():
 	obstacle.position.x = OBSTACLE_START_X
 	gameCat.position.y = CAT_GROUND_Y
 	gameCat.play("Death") 
+	deathSound.play()
 
 func _on_menu_pressed(id):
 	if id == 0:
@@ -294,6 +299,7 @@ func _physics_process(delta: float) -> void:
 		if not is_jumping and jump_cooldown_timer <= 0:
 			is_jumping = true
 			gameCat.play("Jump")
+			jumpSound.play()
 
 	var window_position = Vector2(DisplayServer.window_get_position())
 	var ground_y = taskbar_y - window_size.y
@@ -374,18 +380,22 @@ func _on_area_input(_viewport, event, _shape_idx):
 
 
 func _on_button_pressed() -> void:
-	windowText.show()
+	windowTitle.hide()
 	beanPic.hide()
-	windowText.text = "Bean is our beloved robotics shop cat who used to be a stray on the property. The mentor took her in, and now she roams around as we build the robot!"
+	windowSubtext.show()
+	windowSubtext.text = "Bean is our beloved robotics shop cat who used to be a stray on the property. The mentor took her in, and now she roams around as we build the robot!"
 
 
 func _on_button_2_pressed() -> void:
 	beanPic.show()
-	windowText.hide()
+	windowTitle.hide()
+	windowSubtext.hide()
 
 
 func _on_button_3_pressed() -> void:
 	beanPic.hide()
-	windowText.show()
-	windowText.text = "Thanks for using BeanPet!
+	windowTitle.show()
+	windowSubtext.show()
+	windowTitle.text = "Thanks for using BeanPet!"
+	windowSubtext.text = "
 Bean is the name of the cat you see running around on your screen."

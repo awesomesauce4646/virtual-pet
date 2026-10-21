@@ -13,6 +13,9 @@
 [ext_resource type="Texture2D" uid="uid://l8tevb0nh7rx" path="res://sprites/bean.jpg" id="9_621w0"]
 [ext_resource type="AudioStream" uid="uid://b48p1yg1mws3h" path="res://sounds/meow-1.mp3" id="9_w32yi"]
 [ext_resource type="Texture2D" uid="uid://bnft2brfb7kgx" path="res://sprites/benbushnell-pixel-heart-2779422.png" id="10_us1xf"]
+[ext_resource type="Texture2D" uid="uid://b708usyowrlvt" path="res://sprites/Cat-Paw-Print-Clipart-white.png" id="14_11scu"]
+[ext_resource type="AudioStream" uid="uid://mjlkh4aud1fd" path="res://sounds/die.wav" id="14_dkavk"]
+[ext_resource type="AudioStream" uid="uid://7lv8jpgywhdk" path="res://sounds/jump.wav" id="15_11scu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_01l5c"]
 atlas = ExtResource("2_6e2du")
@@ -587,6 +590,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(425, 325)
+visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -599,16 +603,27 @@ offset_right = 441.0
 offset_bottom = 414.0
 color = Color(0.16862746, 0.16862746, 0.16862746, 1)
 
-[node name="Text" type="RichTextLabel" parent="Window" unique_id=186010161]
-offset_left = 44.0
-offset_top = 17.0
-offset_right = 380.0
-offset_bottom = 227.0
+[node name="Title" type="RichTextLabel" parent="Window" unique_id=186010161]
+offset_left = -46.0
+offset_top = -46.0
+offset_right = 470.0
+offset_bottom = 164.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 30
+text = "Thanks for using BeanPet!
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Subline" type="RichTextLabel" parent="Window" unique_id=1809948816]
+offset_left = 8.0
+offset_top = 34.0
+offset_right = 418.0
+offset_bottom = 199.0
 theme_override_fonts/normal_font = ExtResource("8_x5jns")
 theme_override_font_sizes/normal_font_size = 22
-text = "Thanks for using BeanPet!
-Bean is the name of the cat you see running around on your screen.
-"
+text = "
+Bean is the name of the cat you see running around on your screen."
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -622,12 +637,20 @@ theme_override_fonts/font = ExtResource("8_x5jns")
 theme_override_styles/normal = SubResource("StyleBoxFlat_11scu")
 text = "ABOUT BEAN"
 
-[node name="BeanPicture" type="TextureRect" parent="Window" unique_id=1671559546]
+[node name="BeanPicture" type="ColorRect" parent="Window" unique_id=1380290244]
 visible = false
-offset_left = 61.0
-offset_top = 29.0
-offset_right = 332.0
-offset_bottom = 214.0
+offset_left = 67.0
+offset_top = 19.0
+offset_right = 361.0
+offset_bottom = 223.0
+color = Color(0.5479769, 0, 0.1196455, 1)
+
+[node name="BeanPicture" type="TextureRect" parent="Window/BeanPicture" unique_id=1671559546]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = 282.0
+offset_bottom = 195.0
 texture = ExtResource("9_621w0")
 expand_mode = 1
 
@@ -677,7 +700,7 @@ minimize_disabled = true
 maximize_disabled = true
 
 [node name="ColorRect" type="ColorRect" parent="GameWindow" unique_id=834745518]
-offset_right = 499.0
+offset_right = 638.0
 offset_bottom = 499.0
 color = Color(0.6182063, 0, 0.10429338, 1)
 
@@ -768,29 +791,39 @@ shape = SubResource("RectangleShape2D_7304a")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(400, 300)
-visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
 maximize_disabled = true
 
 [node name="ColorRect" type="ColorRect" parent="StatsWindow" unique_id=1692056141]
-offset_left = -15.0
+offset_left = -51.0
 offset_top = -24.0
 offset_right = 416.0
-offset_bottom = 332.0
+offset_bottom = 349.0
 color = Color(0.6438666, 0, 0.2463327, 1)
 
 [node name="Title" type="RichTextLabel" parent="StatsWindow" unique_id=1737461089]
-offset_left = 131.0
-offset_top = 3.0
-offset_right = 270.0
-offset_bottom = 65.0
+offset_left = 65.0
+offset_top = 9.0
+offset_right = 318.0
+offset_bottom = 71.0
 theme_override_fonts/normal_font = ExtResource("8_x5jns")
 theme_override_font_sizes/normal_font_size = 35
 text = "STATS"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CatPawPrintClipartWhite" type="TextureRect" parent="StatsWindow/Title" unique_id=214348823]
+layout_mode = 0
+offset_left = 199.0
+offset_top = 2.9999948
+offset_right = 231.0
+offset_bottom = 34.999992
+rotation = 0.25845096
+scale = Vector2(1.4571607, 1.4634434)
+texture = ExtResource("14_11scu")
+expand_mode = 1
 
 [node name="Happiness" type="RichTextLabel" parent="StatsWindow" unique_id=1030407903]
 offset_left = 18.0
@@ -821,6 +854,12 @@ theme_override_fonts/normal_font = ExtResource("8_x5jns")
 theme_override_font_sizes/normal_font_size = 24
 text = "HUNGER:"
 vertical_alignment = 1
+
+[node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=143689771]
+stream = ExtResource("14_dkavk")
+
+[node name="JumpSound" type="AudioStreamPlayer2D" parent="." unique_id=1062975986]
+stream = ExtResource("15_11scu")
 
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Window/Button2" to="." method="_on_button_2_pressed"]
