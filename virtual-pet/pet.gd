@@ -6,6 +6,10 @@ const OBSTACLE_START_X = 800.0
 const CAT_GROUND_Y = 323.0
 const HAPPINESS_INTERVAL = 30.0
 const HAPPINESS_DECAY = 2
+const HUNGER_INTERVAL = 20.0
+const HUNGER_DECAY = 2
+const ENERGY_INTERVAL = 40.0
+const ENERGY_DECAY = 2
 
 var speed = 300
 var direction = Vector2(1,0)
@@ -40,6 +44,10 @@ var velocity = Vector2()
 
 var happiness = 100
 var happiness_timer = 0.0
+var energy = 100
+var energy_timer = 0.0
+var hunger = 100
+var hunger_timer = 0.0
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
@@ -62,6 +70,8 @@ var happiness_timer = 0.0
 @onready var scoreText = $GameWindow/Score
 @onready var happinessText = $StatsWindow/Happiness
 @onready var statsWindow = $StatsWindow
+@onready var energyText = $StatsWindow/Energy
+@onready var hungerText = $StatsWindow/Hunger
 
 func save_stats():
 	var config = ConfigFile.new()
@@ -135,11 +145,13 @@ func _on_menu_pressed(id):
 		idle_timer = 7.0
 		speed = 0
 		animated_sprite.play("Sleep")
+		energy = min(energy + 30, 100)
 	if id == 1:
 		is_idling = true
 		idle_timer = 4.0
 		speed = 0
 		animated_sprite.play("Feed")
+		hunger = min(hunger + 15, 100)
 	if id == 2:
 		gameCurrentlyOpened = !gameCurrentlyOpened
 		if gameCurrentlyOpened:
@@ -164,6 +176,10 @@ func _on_menu_pressed(id):
 
 func _on_clicked():
 	particles.restart()
+	if happiness < 99.5:
+		happiness = happiness + .5
+	else:
+		happiness = 100
 	is_idling = true
 	idle_timer = 1.5
 	speed = 0
@@ -177,11 +193,26 @@ func _on_clicked():
 func _physics_process(delta: float) -> void:
 	happiness_timer += delta
 	happinessText.text = "MOOD: " + str(happiness)
+	energy_timer += delta
+	energyText.text = "ENERGY: " + str(energy)
+	hunger_timer += delta
+	hungerText.text = "HUNGER: " + str(hunger)
+	
 	if happiness_timer >= HAPPINESS_INTERVAL:
 		happiness_timer -= HAPPINESS_INTERVAL
 		happiness = max(happiness - HAPPINESS_DECAY, 0)
 		save_stats()
-
+		
+	if energy_timer >= ENERGY_INTERVAL:
+		energy_timer -= ENERGY_INTERVAL
+		energy = max(energy - ENERGY_DECAY, 0)
+		save_stats()
+		
+	if hunger_timer >= HUNGER_INTERVAL:
+		hunger_timer -= HUNGER_INTERVAL
+		hunger = max(hunger - HUNGER_DECAY, 0)
+		save_stats()
+		
 	if jump_cooldown_timer > 0:
 		jump_cooldown_timer -= delta
 

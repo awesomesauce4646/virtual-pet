@@ -775,13 +775,33 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Happiness" type="RichTextLabel" parent="StatsWindow" unique_id=1030407903]
-offset_top = 56.0
-offset_right = 131.0
-offset_bottom = 105.0
+offset_left = 18.0
+offset_top = 80.0
+offset_right = 189.0
+offset_bottom = 121.0
 theme_override_fonts/normal_font = ExtResource("8_x5jns")
 theme_override_font_sizes/normal_font_size = 24
 text = "MOOD:"
-horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Energy" type="RichTextLabel" parent="StatsWindow" unique_id=868864731]
+offset_left = 18.0
+offset_top = 148.0
+offset_right = 189.0
+offset_bottom = 189.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 24
+text = "ENERGY:"
+vertical_alignment = 1
+
+[node name="Hunger" type="RichTextLabel" parent="StatsWindow" unique_id=1142451529]
+offset_left = 18.0
+offset_top = 216.0
+offset_right = 217.0
+offset_bottom = 258.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 24
+text = "HUNGER:"
 vertical_alignment = 1
 
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
