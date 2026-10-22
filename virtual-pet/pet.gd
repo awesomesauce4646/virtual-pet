@@ -10,6 +10,8 @@ const HUNGER_INTERVAL = 20.0
 const HUNGER_DECAY = 2
 const ENERGY_INTERVAL = 40.0
 const ENERGY_DECAY = 2
+const TREE_START_X = 555
+
 
 var speed = 300
 var direction = Vector2(1,0)
@@ -75,6 +77,14 @@ var hunger_timer = 0.0
 @onready var hungerText = $StatsWindow/Hunger
 @onready var deathSound = $DeathSound
 @onready var jumpSound = $JumpSound
+@onready var purrSound = $PurrSound
+@onready var eatingSound = $NomSound
+
+@onready var treeOne = $GameWindow/Tree1
+@onready var treeTwo = $GameWindow/Tree2
+@onready var treeThree = $GameWindow/Tree3
+@onready var treeFour = $GameWindow/Tree4
+@onready var treeFive = $GameWindow/Tree5
 
 
 func save_stats():
@@ -154,13 +164,15 @@ func _on_menu_pressed(id):
 		idle_timer = 7.0
 		speed = 0
 		animated_sprite.play("Sleep")
+		purrSound.play()
 		energy = min(energy + 30, 100)
 		save_stats()
 	if id == 1:
 		is_idling = true
-		idle_timer = 4.0
+		idle_timer = .8
 		speed = 0
 		animated_sprite.play("Feed")
+		eatingSound.play()
 		hunger = min(hunger + 15, 100)
 		save_stats()
 	if id == 2:
@@ -231,11 +243,26 @@ func _physics_process(delta: float) -> void:
 
 	if gameRunning:
 		obstacle.position.x += -500 * delta
+		treeOne.position.x += -400 * delta
+		treeTwo.position.x += -400 * delta
+		treeThree.position.x += -400 * delta
+		treeFour.position.x += -400 * delta
+		treeFive.position.x += -400 * delta
 		scoreText.text = "SCORE: " + str(score)
 		if obstacle.position.x < -70:
 			obstacle.position.x = OBSTACLE_START_X
 			score = score + 1
-
+		if treeOne.position.x < -120:
+			treeOne.position.x = TREE_START_X
+		if treeTwo.position.x < -120:
+			treeTwo.position.x = TREE_START_X
+		if treeThree.position.x < -120:
+			treeThree.position.x = TREE_START_X
+		if treeFour.position.x < -120:
+			treeFour.position.x = TREE_START_X
+		if treeFive.position.x < -120:
+			treeFive.position.x = TREE_START_X
+			
 	if is_jumping:
 		gameCat.position.y += -300 * delta
 		if gameCat.position.y < 225.0:
