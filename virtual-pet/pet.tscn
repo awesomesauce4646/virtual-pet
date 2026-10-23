@@ -17,8 +17,12 @@
 [ext_resource type="AudioStream" uid="uid://mjlkh4aud1fd" path="res://sounds/die.wav" id="14_dkavk"]
 [ext_resource type="Texture2D" uid="uid://csyha0sdboao4" path="res://sprites/tree.png" id="14_m1av8"]
 [ext_resource type="AudioStream" uid="uid://7lv8jpgywhdk" path="res://sounds/jump.wav" id="15_11scu"]
+[ext_resource type="Texture2D" uid="uid://dj4j74fvx3sg7" path="res://sprites/club.webp" id="16_xypoy"]
+[ext_resource type="Texture2D" uid="uid://dux32mc0vy0mc" path="res://sprites/heart.webp" id="17_0bf13"]
 [ext_resource type="AudioStream" uid="uid://bfyhjpmkui8kc" path="res://sounds/purr.mp3" id="17_0ccft"]
 [ext_resource type="AudioStream" uid="uid://dwqocg0fkhdje" path="res://sounds/nom.mp3" id="18_myjb5"]
+[ext_resource type="Texture2D" uid="uid://bg8pckie1urtb" path="res://sprites/spade.webp" id="18_sjut6"]
+[ext_resource type="AudioStream" uid="uid://bx40w80f7qgs8" path="res://sounds/point.wav" id="20_djl34"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_01l5c"]
 atlas = ExtResource("2_6e2du")
@@ -696,6 +700,7 @@ emission_sphere_radius = 68.34
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(500, 500)
+visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -828,7 +833,6 @@ shape = SubResource("RectangleShape2D_7304a")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(400, 300)
-visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -893,6 +897,136 @@ theme_override_font_sizes/normal_font_size = 24
 text = "HUNGER:"
 vertical_alignment = 1
 
+[node name="Club1" type="TextureRect" parent="StatsWindow" unique_id=1674163616]
+offset_left = 108.0
+offset_top = 80.0
+offset_right = 155.0
+offset_bottom = 122.0
+scale = Vector2(1.0991422, 1.1479127)
+texture = ExtResource("16_xypoy")
+expand_mode = 1
+
+[node name="Club2" type="TextureRect" parent="StatsWindow" unique_id=2104427115]
+offset_left = 158.0
+offset_top = 79.0
+offset_right = 205.0
+offset_bottom = 121.0
+scale = Vector2(1.0991422, 1.1479127)
+texture = ExtResource("16_xypoy")
+expand_mode = 1
+
+[node name="Club3" type="TextureRect" parent="StatsWindow" unique_id=711600014]
+offset_left = 210.0
+offset_top = 79.0
+offset_right = 257.0
+offset_bottom = 121.0
+scale = Vector2(1.0991422, 1.1479127)
+texture = ExtResource("16_xypoy")
+expand_mode = 1
+
+[node name="Club4" type="TextureRect" parent="StatsWindow" unique_id=1960924340]
+offset_left = 262.0
+offset_top = 79.0
+offset_right = 309.0
+offset_bottom = 121.0
+scale = Vector2(1.0991422, 1.1479127)
+texture = ExtResource("16_xypoy")
+expand_mode = 1
+
+[node name="Club5" type="TextureRect" parent="StatsWindow" unique_id=106632668]
+offset_left = 312.0
+offset_top = 79.0
+offset_right = 359.0
+offset_bottom = 121.0
+scale = Vector2(1.0991422, 1.1479127)
+texture = ExtResource("16_xypoy")
+expand_mode = 1
+
+[node name="Heart1" type="TextureRect" parent="StatsWindow" unique_id=1772269920]
+offset_left = 124.0
+offset_top = 148.0
+offset_right = 171.0
+offset_bottom = 190.0
+texture = ExtResource("17_0bf13")
+expand_mode = 1
+
+[node name="Heart2" type="TextureRect" parent="StatsWindow" unique_id=797505206]
+offset_left = 174.0
+offset_top = 147.0
+offset_right = 221.0
+offset_bottom = 189.0
+texture = ExtResource("17_0bf13")
+expand_mode = 1
+
+[node name="Heart3" type="TextureRect" parent="StatsWindow" unique_id=13860550]
+offset_left = 226.0
+offset_top = 147.0
+offset_right = 273.0
+offset_bottom = 189.0
+texture = ExtResource("17_0bf13")
+expand_mode = 1
+
+[node name="Heart4" type="TextureRect" parent="StatsWindow" unique_id=745315309]
+offset_left = 278.0
+offset_top = 147.0
+offset_right = 325.0
+offset_bottom = 189.0
+texture = ExtResource("17_0bf13")
+expand_mode = 1
+
+[node name="Heart5" type="TextureRect" parent="StatsWindow" unique_id=2091245873]
+offset_left = 328.0
+offset_top = 147.0
+offset_right = 375.0
+offset_bottom = 189.0
+texture = ExtResource("17_0bf13")
+expand_mode = 1
+
+[node name="Spade1" type="TextureRect" parent="StatsWindow" unique_id=277000266]
+offset_left = 127.0
+offset_top = 214.0
+offset_right = 174.0
+offset_bottom = 256.0
+scale = Vector2(1.08, 1.2399976)
+texture = ExtResource("18_sjut6")
+expand_mode = 1
+
+[node name="Spade2" type="TextureRect" parent="StatsWindow" unique_id=1625825250]
+offset_left = 177.0
+offset_top = 213.0
+offset_right = 224.0
+offset_bottom = 255.0
+scale = Vector2(1.08, 1.2399976)
+texture = ExtResource("18_sjut6")
+expand_mode = 1
+
+[node name="Spade3" type="TextureRect" parent="StatsWindow" unique_id=913209209]
+offset_left = 229.0
+offset_top = 213.0
+offset_right = 276.0
+offset_bottom = 255.0
+scale = Vector2(1.08, 1.2399976)
+texture = ExtResource("18_sjut6")
+expand_mode = 1
+
+[node name="Spade4" type="TextureRect" parent="StatsWindow" unique_id=1721848633]
+offset_left = 281.0
+offset_top = 213.0
+offset_right = 328.0
+offset_bottom = 255.0
+scale = Vector2(1.08, 1.2399976)
+texture = ExtResource("18_sjut6")
+expand_mode = 1
+
+[node name="Spade5" type="TextureRect" parent="StatsWindow" unique_id=1167778756]
+offset_left = 331.0
+offset_top = 213.0
+offset_right = 378.0
+offset_bottom = 255.0
+scale = Vector2(1.08, 1.2399976)
+texture = ExtResource("18_sjut6")
+expand_mode = 1
+
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=143689771]
 stream = ExtResource("14_dkavk")
 
@@ -905,6 +1039,10 @@ volume_db = 24.0
 
 [node name="NomSound" type="AudioStreamPlayer2D" parent="." unique_id=203420124]
 stream = ExtResource("18_myjb5")
+
+[node name="PointSound" type="AudioStreamPlayer2D" parent="." unique_id=102601304]
+position = Vector2(40, 228)
+stream = ExtResource("20_djl34")
 
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Window/Button2" to="." method="_on_button_2_pressed"]

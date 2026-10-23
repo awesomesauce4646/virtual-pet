@@ -79,12 +79,29 @@ var hunger_timer = 0.0
 @onready var jumpSound = $JumpSound
 @onready var purrSound = $PurrSound
 @onready var eatingSound = $NomSound
+@onready var pointSound = $PointSound
 
 @onready var treeOne = $GameWindow/Tree1
 @onready var treeTwo = $GameWindow/Tree2
 @onready var treeThree = $GameWindow/Tree3
 @onready var treeFour = $GameWindow/Tree4
 @onready var treeFive = $GameWindow/Tree5
+
+@onready var spadeOne = $StatsWindow/Spade1
+@onready var spadeTwo = $StatsWindow/Spade2
+@onready var spadeThree = $StatsWindow/Spade3
+@onready var spadeFour = $StatsWindow/Spade4
+@onready var spadeFive = $StatsWindow/Spade5
+@onready var clubsOne = $StatsWindow/Club1
+@onready var clubsTwo = $StatsWindow/Club2
+@onready var clubsThree = $StatsWindow/Club3
+@onready var clubsFour = $StatsWindow/Club4
+@onready var clubsFive = $StatsWindow/Club5
+@onready var heartOne = $StatsWindow/Heart1
+@onready var heartTwo = $StatsWindow/Heart2
+@onready var heartThree = $StatsWindow/Heart3
+@onready var heartFour = $StatsWindow/Heart4
+@onready var heartFive = $StatsWindow/Heart5
 
 
 func save_stats():
@@ -165,7 +182,7 @@ func _on_menu_pressed(id):
 		speed = 0
 		animated_sprite.play("Sleep")
 		purrSound.play()
-		energy = min(energy + 30, 100)
+		energy = min(energy + 10, 100)
 		save_stats()
 	if id == 1:
 		is_idling = true
@@ -173,15 +190,16 @@ func _on_menu_pressed(id):
 		speed = 0
 		animated_sprite.play("Feed")
 		eatingSound.play()
-		hunger = min(hunger + 15, 100)
+		hunger = min(hunger + 10, 100)
 		save_stats()
 	if id == 2:
 		gameCurrentlyOpened = !gameCurrentlyOpened
 		if gameCurrentlyOpened:
-			happiness = min(happiness + 20, 100)
+			happiness = min(happiness + 10, 100)
 			save_stats()
 			gameWindow.show()
 			readyText.show()
+			gameOverText.hide()
 			gameCat.play("Sit")
 		else:
 			gameWindow.hide()
@@ -217,11 +235,122 @@ func _on_clicked():
 
 func _physics_process(delta: float) -> void:
 	happiness_timer += delta
-	happinessText.text = "MOOD: " + str(happiness)
+	#happinessText.text = "MOOD: " + str(happiness)
 	energy_timer += delta
-	energyText.text = "ENERGY: " + str(energy)
+	#energyText.text = "ENERGY: " + str(energy)
 	hunger_timer += delta
-	hungerText.text = "HUNGER: " + str(hunger)
+	#hungerText.text = "HUNGER: " + str(hunger)
+	
+	if happiness >= 80:
+		clubsOne.show()
+		clubsTwo.show()
+		clubsThree.show()
+		clubsFour.show()
+		clubsFive.show()
+	elif happiness >= 60:
+		clubsOne.show()
+		clubsTwo.show()
+		clubsThree.show()
+		clubsFour.show()
+		clubsFive.hide()
+	elif happiness >= 40:
+		clubsOne.show()
+		clubsTwo.show()
+		clubsThree.show()
+		clubsFour.hide()
+		clubsFive.hide()
+	elif happiness >= 20:
+		clubsOne.show()
+		clubsTwo.show()
+		clubsThree.hide()
+		clubsFour.hide()
+		clubsFive.hide()
+	elif happiness >= 10:
+		clubsOne.show()
+		clubsTwo.hide()
+		clubsThree.hide()
+		clubsFour.hide()
+		clubsFive.hide()
+	else:
+		clubsOne.hide()
+		clubsTwo.hide()
+		clubsThree.hide()
+		clubsFour.hide()
+		clubsFive.hide()	
+	
+	if energy >= 80:
+		heartOne.show()
+		heartTwo.show()
+		heartThree.show()
+		heartFour.show()
+		heartFive.show()
+	elif happiness >= 60:
+		heartOne.show()
+		heartTwo.show()
+		heartThree.show()
+		heartFour.show()
+		heartFive.hide()
+	elif happiness >= 40:
+		heartOne.show()
+		heartTwo.show()
+		heartThree.show()
+		heartFour.hide()
+		heartFive.hide()
+	elif happiness >= 20:
+		heartOne.show()
+		heartTwo.show()
+		heartThree.hide()
+		heartFour.hide()
+		heartFive.hide()
+	elif happiness >= 10:
+		heartOne.show()
+		heartTwo.hide()
+		heartThree.hide()
+		heartFour.hide()
+		heartFive.hide()
+	else:
+		heartOne.hide()
+		heartTwo.hide()
+		heartThree.hide()
+		heartFour.hide()
+		heartFive.hide()	
+	
+	if hunger >= 80:
+		spadeOne.show()
+		spadeTwo.show()
+		spadeThree.show()
+		spadeFour.show()
+		spadeFive.show()
+	elif happiness >= 60:
+		spadeOne.show()
+		spadeTwo.show()
+		spadeThree.show()
+		spadeFour.show()
+		spadeFive.hide()
+	elif happiness >= 40:
+		spadeOne.show()
+		spadeTwo.show()
+		spadeThree.show()
+		spadeFour.hide()
+		spadeFive.hide()
+	elif happiness >= 20:
+		spadeOne.show()
+		spadeTwo.show()
+		spadeThree.hide()
+		spadeFour.hide()
+		spadeFive.hide()
+	elif happiness >= 10:
+		spadeOne.show()
+		spadeTwo.hide()
+		spadeThree.hide()
+		spadeFour.hide()
+		spadeFive.hide()
+	else:
+		spadeOne.hide()
+		spadeTwo.hide()
+		spadeThree.hide()
+		spadeFour.hide()
+		spadeFive.hide()	
 	
 	if happiness_timer >= HAPPINESS_INTERVAL:
 		happiness_timer -= HAPPINESS_INTERVAL
@@ -243,15 +372,17 @@ func _physics_process(delta: float) -> void:
 
 	if gameRunning:
 		obstacle.position.x += -500 * delta
-		treeOne.position.x += -400 * delta
-		treeTwo.position.x += -400 * delta
-		treeThree.position.x += -400 * delta
-		treeFour.position.x += -400 * delta
-		treeFive.position.x += -400 * delta
+		treeOne.position.x += -350 * delta
+		treeTwo.position.x += -350 * delta
+		treeThree.position.x += -350 * delta
+		treeFour.position.x += -350 * delta
+		treeFive.position.x += -350 * delta
 		scoreText.text = "SCORE: " + str(score)
-		if obstacle.position.x < -70:
-			obstacle.position.x = OBSTACLE_START_X
-			score = score + 1
+		if obstacle.position.x < -50:
+			obstacle.position.x = OBSTACLE_START_X + randi_range(0, 300)
+			score += 1
+			if score % 5 == 0:
+				pointSound.play()
 		if treeOne.position.x < -120:
 			treeOne.position.x = TREE_START_X
 		if treeTwo.position.x < -120:
