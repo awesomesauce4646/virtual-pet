@@ -453,7 +453,7 @@ func _physics_process(delta: float) -> void:
 			gameCat.play("Run")
 			gameRunning = true
 
-	if Input.is_action_just_pressed("jump") && gameCurrentlyOpened:
+	if Input.is_action_just_pressed("jump") && gameCurrentlyOpened && gameRunning:
 		if not is_jumping and jump_cooldown_timer <= 0:
 			is_jumping = true
 			gameCat.play("Jump")

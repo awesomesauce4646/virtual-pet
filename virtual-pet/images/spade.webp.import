@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bvma1j7wosos3"
-path="res://.godot/imported/diamond.webp-823364ed8b8251a11208a7b7de20f6ea.ctex"
+uid="uid://bg8pckie1urtb"
+path="res://.godot/imported/spade.webp-28c096531c2043ac1b491247c8c30063.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/diamond.webp"
-dest_files=["res://.godot/imported/diamond.webp-823364ed8b8251a11208a7b7de20f6ea.ctex"]
+source_file="res://images/spade.webp"
+dest_files=["res://.godot/imported/spade.webp-28c096531c2043ac1b491247c8c30063.ctex"]
 
 [params]
 

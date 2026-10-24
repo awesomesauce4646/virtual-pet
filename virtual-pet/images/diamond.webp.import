@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b708usyowrlvt"
-path="res://.godot/imported/catPaw.png-e058228ee2a1491b7d915adb9515a757.ctex"
+uid="uid://bvma1j7wosos3"
+path="res://.godot/imported/diamond.webp-897b7d27a3fe45ab0f97fa6be58e4eff.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/catPaw.png"
-dest_files=["res://.godot/imported/catPaw.png-e058228ee2a1491b7d915adb9515a757.ctex"]
+source_file="res://images/diamond.webp"
+dest_files=["res://.godot/imported/diamond.webp-897b7d27a3fe45ab0f97fa6be58e4eff.ctex"]
 
 [params]
 

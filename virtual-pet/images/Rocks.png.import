@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dux32mc0vy0mc"
-path="res://.godot/imported/heart.webp-543021111b1dfe8b100bef1720389380.ctex"
+uid="uid://mxx2lk4jsybj"
+path="res://.godot/imported/Rocks.png-77858293177516f14be781650c11f915.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/heart.webp"
-dest_files=["res://.godot/imported/heart.webp-543021111b1dfe8b100bef1720389380.ctex"]
+source_file="res://images/Rocks.png"
+dest_files=["res://.godot/imported/Rocks.png-77858293177516f14be781650c11f915.ctex"]
 
 [params]
 
