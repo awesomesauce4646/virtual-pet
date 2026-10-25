@@ -234,6 +234,12 @@ func _on_clicked():
 		meowTwoSound.play()
 
 func _physics_process(delta: float) -> void:
+	if happiness > 80 && hunger > 80:
+		speed = 500
+	elif happiness > 60 && hunger > 60:
+		speed = 400
+	else:
+		speed = 300
 	happiness_timer += delta
 	#happinessText.text = "MOOD: " + str(happiness)
 	energy_timer += delta
@@ -284,25 +290,25 @@ func _physics_process(delta: float) -> void:
 		heartThree.show()
 		heartFour.show()
 		heartFive.show()
-	elif happiness >= 60:
+	elif energy >= 60:
 		heartOne.show()
 		heartTwo.show()
 		heartThree.show()
 		heartFour.show()
 		heartFive.hide()
-	elif happiness >= 40:
+	elif energy >= 40:
 		heartOne.show()
 		heartTwo.show()
 		heartThree.show()
 		heartFour.hide()
 		heartFive.hide()
-	elif happiness >= 20:
+	elif energy >= 20:
 		heartOne.show()
 		heartTwo.show()
 		heartThree.hide()
 		heartFour.hide()
 		heartFive.hide()
-	elif happiness >= 10:
+	elif energy >= 10:
 		heartOne.show()
 		heartTwo.hide()
 		heartThree.hide()
@@ -321,25 +327,25 @@ func _physics_process(delta: float) -> void:
 		spadeThree.show()
 		spadeFour.show()
 		spadeFive.show()
-	elif happiness >= 60:
+	elif hunger >= 60:
 		spadeOne.show()
 		spadeTwo.show()
 		spadeThree.show()
 		spadeFour.show()
 		spadeFive.hide()
-	elif happiness >= 40:
+	elif hunger >= 40:
 		spadeOne.show()
 		spadeTwo.show()
 		spadeThree.show()
 		spadeFour.hide()
 		spadeFive.hide()
-	elif happiness >= 20:
+	elif hunger >= 20:
 		spadeOne.show()
 		spadeTwo.show()
 		spadeThree.hide()
 		spadeFour.hide()
 		spadeFive.hide()
-	elif happiness >= 10:
+	elif hunger >= 10:
 		spadeOne.show()
 		spadeTwo.hide()
 		spadeThree.hide()
@@ -556,4 +562,10 @@ func _on_button_3_pressed() -> void:
 	windowSubtext.show()
 	windowTitle.text = "Thanks for using BeanPet!"
 	windowSubtext.text = "
-Bean is the name of the cat you see running around on your screen."
+Bean is the name of the cat you see running around on your screen. Give her a click!"
+
+
+func _on_close_button_pressed() -> void:
+	window.hide()
+	menuOpened = false
+	menuCurrentlyOpened = false

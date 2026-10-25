@@ -13,6 +13,8 @@
 [ext_resource type="Texture2D" uid="uid://l8tevb0nh7rx" path="res://images/bean.jpg" id="9_621w0"]
 [ext_resource type="AudioStream" uid="uid://b48p1yg1mws3h" path="res://sounds/meow-1.mp3" id="9_w32yi"]
 [ext_resource type="Texture2D" uid="uid://bnft2brfb7kgx" path="res://images/benbushnell-pixel-heart-2779422.png" id="10_us1xf"]
+[ext_resource type="Script" uid="uid://daj4khhx5utpi" path="res://topBar.gd" id="11_o7tcy"]
+[ext_resource type="Texture2D" uid="uid://bvma1j7wosos3" path="res://images/diamond.webp" id="11_qrkd0"]
 [ext_resource type="Texture2D" uid="uid://b708usyowrlvt" path="res://images/catPaw.png" id="14_11scu"]
 [ext_resource type="AudioStream" uid="uid://mjlkh4aud1fd" path="res://sounds/die.wav" id="14_dkavk"]
 [ext_resource type="Texture2D" uid="uid://csyha0sdboao4" path="res://images/tree.png" id="14_m1av8"]
@@ -556,6 +558,44 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kptrr"]
+bg_color = Color(0.11372549, 0.10980392, 0.11372549, 1)
+border_width_left = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f50c0"]
+bg_color = Color(0.6117647, 0, 0.13333334, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gk0tr"]
+bg_color = Color(0.105882354, 0.105882354, 0.105882354, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rxurb"]
+bg_color = Color(0.11372549, 0.11372549, 0.11372549, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_n2wdx"]
+bg_color = Color(0.1893278, 0.18932778, 0.1893278, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjut6"]
 bg_color = Color(0.6117647, 0, 0.13333334, 1)
 border_width_left = 3
@@ -702,26 +742,63 @@ theme_override_fonts/font = ExtResource("8_x5jns")
 theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 
 [node name="Window" type="Window" parent="." unique_id=1762716440]
+transparent_bg = true
 oversampling_override = 1.0
 position = Vector2i(0, 36)
-size = Vector2i(425, 325)
+size = Vector2i(475, 375)
 unresizable = true
+borderless = true
 always_on_top = true
+transparent = true
 minimize_disabled = true
 maximize_disabled = true
 
-[node name="ColorRect" type="ColorRect" parent="Window" unique_id=743266425]
-offset_left = -14.0
-offset_top = -5.0
-offset_right = 441.0
-offset_bottom = 414.0
-color = Color(0.11372549, 0.10980392, 0.11372549, 1)
+[node name="ColorRect" type="Panel" parent="Window" unique_id=929296043]
+offset_top = 53.0
+offset_right = 466.0
+offset_bottom = 373.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kptrr")
+
+[node name="TopBar" type="Control" parent="Window/ColorRect" unique_id=791370951]
+anchors_preset = 0
+offset_top = -55.0
+offset_right = 467.0
+offset_bottom = 16.0
+script = ExtResource("11_o7tcy")
+
+[node name="Panel" type="Panel" parent="Window/ColorRect/TopBar" unique_id=239268928]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 466.0
+offset_bottom = 73.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_f50c0")
+script = ExtResource("11_o7tcy")
+
+[node name="CloseButton" type="Button" parent="Window/ColorRect/TopBar/Panel" unique_id=637594950]
+layout_mode = 0
+offset_left = 405.0
+offset_top = 11.0
+offset_right = 452.0
+offset_bottom = 57.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_gk0tr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rxurb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n2wdx")
+
+[node name="TextureRect" type="TextureRect" parent="Window/ColorRect/TopBar/Panel/CloseButton" unique_id=1820261640]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 8.0
+offset_right = 152.896
+offset_bottom = 71.48549
+scale = Vector2(0.25868642, 0.48266193)
+texture = ExtResource("11_qrkd0")
+expand_mode = 1
 
 [node name="Title" type="RichTextLabel" parent="Window" unique_id=186010161]
-offset_left = -46.0
-offset_top = -46.0
-offset_right = 470.0
-offset_bottom = 164.0
+offset_left = -23.0
+offset_top = 78.0
+offset_right = 493.0
+offset_bottom = 154.0
 theme_override_fonts/normal_font = ExtResource("8_x5jns")
 theme_override_font_sizes/normal_font_size = 30
 text = "Thanks for using BeanPet!
@@ -730,22 +807,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Subline" type="RichTextLabel" parent="Window" unique_id=1809948816]
-offset_left = 8.0
-offset_top = 34.0
-offset_right = 418.0
-offset_bottom = 199.0
+offset_left = 28.0
+offset_top = 111.0
+offset_right = 438.0
+offset_bottom = 252.0
 theme_override_fonts/normal_font = ExtResource("8_x5jns")
 theme_override_font_sizes/normal_font_size = 22
 text = "
-Bean is the name of the cat you see running around on your screen."
+Bean is the name of the cat you see running around on your screen. Give her a click!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Button" type="Button" parent="Window" unique_id=2005499253]
-offset_left = 16.0
-offset_top = 238.0
-offset_right = 158.0
-offset_bottom = 293.0
+offset_left = 39.0
+offset_top = 288.0
+offset_right = 181.0
+offset_bottom = 343.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
 theme_override_styles/normal = SubResource("StyleBoxFlat_sjut6")
@@ -755,10 +832,10 @@ text = "ABOUT BEAN"
 
 [node name="BeanPicture" type="Panel" parent="Window" unique_id=1161023370]
 visible = false
-offset_left = 67.0
-offset_top = 19.0
-offset_right = 361.0
-offset_bottom = 223.0
+offset_left = 90.0
+offset_top = 76.0
+offset_right = 384.0
+offset_bottom = 280.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_7304a")
 
 [node name="BeanPicture" type="TextureRect" parent="Window/BeanPicture" unique_id=1671559546]
@@ -771,10 +848,10 @@ texture = ExtResource("9_621w0")
 expand_mode = 1
 
 [node name="Button2" type="Button" parent="Window" unique_id=1826563598]
-offset_left = 266.0
-offset_top = 238.0
-offset_right = 408.0
-offset_bottom = 293.0
+offset_left = 289.0
+offset_top = 288.0
+offset_right = 431.0
+offset_bottom = 343.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
 theme_override_styles/normal = SubResource("StyleBoxFlat_11scu")
@@ -783,10 +860,10 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_7o5ql")
 text = "BEAN PICTURE"
 
 [node name="Button3" type="Button" parent="Window" unique_id=1841221059]
-offset_left = 179.0
-offset_top = 238.0
-offset_right = 249.0
-offset_bottom = 293.0
+offset_left = 202.0
+offset_top = 288.0
+offset_right = 272.0
+offset_bottom = 343.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
 theme_override_styles/normal = SubResource("StyleBoxFlat_11scu")
@@ -1181,6 +1258,7 @@ stream = ExtResource("18_myjb5")
 position = Vector2(40, 228)
 stream = ExtResource("20_djl34")
 
+[connection signal="pressed" from="Window/ColorRect/TopBar/Panel/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Window/Button2" to="." method="_on_button_2_pressed"]
 [connection signal="pressed" from="Window/Button3" to="." method="_on_button_3_pressed"]
