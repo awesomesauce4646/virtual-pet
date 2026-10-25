@@ -3,7 +3,7 @@ extends Node2D
 const DRAG_THRESHOLD = 6.0
 const JUMP_COOLDOWN = .6
 const OBSTACLE_START_X = 800.0
-const CAT_GROUND_Y = 323.0
+const CAT_GROUND_Y = 388.0
 const HAPPINESS_INTERVAL = 30.0
 const HAPPINESS_DECAY = 2
 const HUNGER_INTERVAL = 20.0
@@ -569,3 +569,13 @@ func _on_close_button_pressed() -> void:
 	window.hide()
 	menuOpened = false
 	menuCurrentlyOpened = false
+
+
+func _on_close_two_button_pressed() -> void:
+	statsWindow.hide()
+	statsCurrentlyOpened = false
+
+
+func _on_close_three_button_pressed() -> void:
+	gameWindow.hide()
+	gameCurrentlyOpened = false
