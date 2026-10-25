@@ -556,13 +556,108 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11scu"]
-bg_color = Color(0.61118454, 0, 0.13188323, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjut6"]
+bg_color = Color(0.6117647, 0, 0.13333334, 1)
 border_width_left = 3
 border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7tcy"]
+bg_color = Color(0.4509804, 0, 0.08627451, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slpjv"]
+bg_color = Color(0.4509804, 0, 0.08627451, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7304a"]
+bg_color = Color(0.6117647, 0, 0.13333334, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11scu"]
+bg_color = Color(0.6117647, 0, 0.13333334, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kckgm"]
+bg_color = Color(0.4509804, 0, 0.08627451, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7o5ql"]
+bg_color = Color(0.4509804, 0, 0.08627451, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awnet"]
+bg_color = Color(0.4509804, 0, 0.08627451, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8t54o"]
+bg_color = Color(0.4509804, 0, 0.08627451, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -610,7 +705,6 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_vggrg")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(425, 325)
-visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -654,16 +748,18 @@ offset_right = 158.0
 offset_bottom = 293.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
-theme_override_styles/normal = SubResource("StyleBoxFlat_11scu")
+theme_override_styles/normal = SubResource("StyleBoxFlat_sjut6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_o7tcy")
+theme_override_styles/hover = SubResource("StyleBoxFlat_slpjv")
 text = "ABOUT BEAN"
 
-[node name="BeanPicture" type="ColorRect" parent="Window" unique_id=1380290244]
+[node name="BeanPicture" type="Panel" parent="Window" unique_id=1161023370]
 visible = false
 offset_left = 67.0
 offset_top = 19.0
 offset_right = 361.0
 offset_bottom = 223.0
-color = Color(0.5479769, 0, 0.1196455, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_7304a")
 
 [node name="BeanPicture" type="TextureRect" parent="Window/BeanPicture" unique_id=1671559546]
 layout_mode = 0
@@ -682,6 +778,8 @@ offset_bottom = 293.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
 theme_override_styles/normal = SubResource("StyleBoxFlat_11scu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_kckgm")
+theme_override_styles/hover = SubResource("StyleBoxFlat_7o5ql")
 text = "BEAN PICTURE"
 
 [node name="Button3" type="Button" parent="Window" unique_id=1841221059]
@@ -692,6 +790,8 @@ offset_bottom = 293.0
 theme_override_constants/outline_size = 0
 theme_override_fonts/font = ExtResource("8_x5jns")
 theme_override_styles/normal = SubResource("StyleBoxFlat_11scu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_awnet")
+theme_override_styles/hover = SubResource("StyleBoxFlat_8t54o")
 text = "HOME"
 
 [node name="MeowSound" type="AudioStreamPlayer2D" parent="." unique_id=937604454]
@@ -713,6 +813,7 @@ emission_sphere_radius = 68.34
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(500, 500)
+visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
@@ -847,6 +948,7 @@ shape = SubResource("RectangleShape2D_7304a")
 oversampling_override = 1.0
 position = Vector2i(0, 36)
 size = Vector2i(450, 300)
+visible = false
 unresizable = true
 always_on_top = true
 minimize_disabled = true
