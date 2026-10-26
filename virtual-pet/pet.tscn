@@ -708,21 +708,22 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sjut6"]
 bg_color = Color(0.6117647, 0, 0.13333334, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 6
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o7tcy"]
+content_margin_bottom = 2.0
 bg_color = Color(0.4509804, 0, 0.08627451, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
@@ -731,10 +732,10 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_slpjv"]
 bg_color = Color(0.4509804, 0, 0.08627451, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 6
 border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
@@ -754,21 +755,22 @@ corner_radius_bottom_left = 10
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_11scu"]
 bg_color = Color(0.6117647, 0, 0.13333334, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 6
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kckgm"]
+content_margin_bottom = 2.0
 bg_color = Color(0.4509804, 0, 0.08627451, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
@@ -777,10 +779,10 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7o5ql"]
 bg_color = Color(0.4509804, 0, 0.08627451, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 6
 border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
@@ -788,11 +790,12 @@ corner_radius_bottom_right = 20
 corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_awnet"]
+content_margin_bottom = 2.0
 bg_color = Color(0.4509804, 0, 0.08627451, 1)
-border_width_left = 5
-border_width_top = 5
-border_width_right = 5
-border_width_bottom = 5
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
 corner_radius_top_left = 20
 corner_radius_top_right = 20
 corner_radius_bottom_right = 20
@@ -800,10 +803,10 @@ corner_radius_bottom_left = 20
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8t54o"]
 bg_color = Color(0.4509804, 0, 0.08627451, 1)
-border_width_left = 3
-border_width_top = 3
-border_width_right = 3
-border_width_bottom = 3
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 6
 border_color = Color(0.7372549, 0.7372549, 0.7372549, 1)
 corner_radius_top_left = 20
 corner_radius_top_right = 20
@@ -1619,6 +1622,96 @@ text = "CONTROLS"
 position = Vector2(159.5, 185.5)
 shape = SubResource("RectangleShape2D_g16au")
 
+[node name="ControlsWindow" type="Window" parent="." unique_id=1180375404]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(450, 375)
+visible = false
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+minimize_disabled = true
+maximize_disabled = true
+
+[node name="ColorRect" type="Panel" parent="ControlsWindow" unique_id=954547608]
+offset_top = 53.0
+offset_right = 329.0
+offset_bottom = 366.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_kptrr")
+
+[node name="TopBar" type="Control" parent="ControlsWindow/ColorRect" unique_id=953651591]
+anchors_preset = 0
+offset_top = -55.0
+offset_right = 467.0
+offset_bottom = 16.0
+script = ExtResource("11_o7tcy")
+
+[node name="Panel" type="Panel" parent="ControlsWindow/ColorRect/TopBar" unique_id=82144987]
+layout_mode = 0
+offset_top = 5.0
+offset_right = 329.0
+offset_bottom = 74.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_f50c0")
+script = ExtResource("11_o7tcy")
+
+[node name="CloseFive" type="Button" parent="ControlsWindow/ColorRect/TopBar/Panel" unique_id=627468839]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 11.0
+offset_right = 307.0
+offset_bottom = 57.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_gk0tr")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_rxurb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_n2wdx")
+
+[node name="TextureRect" type="TextureRect" parent="ControlsWindow/ColorRect/TopBar/Panel/CloseFive" unique_id=1051226097]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 8.0
+offset_right = 152.896
+offset_bottom = 71.48549
+scale = Vector2(0.25868642, 0.48266193)
+texture = ExtResource("11_qrkd0")
+expand_mode = 1
+
+[node name="Title" type="RichTextLabel" parent="ControlsWindow/ColorRect/TopBar" unique_id=124469959]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 7.0
+offset_right = 280.0
+offset_bottom = 69.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 35
+text = "CONTROLS"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("11_o7tcy")
+
+[node name="Area2D" type="Area2D" parent="ControlsWindow" unique_id=2107784985]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlsWindow/Area2D" unique_id=1906717390]
+position = Vector2(159.5, 185.5)
+shape = SubResource("RectangleShape2D_g16au")
+
+[node name="Title" type="RichTextLabel" parent="ControlsWindow" unique_id=1952388182]
+offset_left = 28.0
+offset_top = 96.0
+offset_right = 296.0
+offset_bottom = 336.0
+theme_override_fonts/normal_font = ExtResource("8_x5jns")
+theme_override_font_sizes/normal_font_size = 21
+text = "CLICK - PET
+
+DRAG - MOVE BEAN 
+
+H - INFO WINDOW
+
+RIGHT CLICK BEAN - MENU
+"
+script = ExtResource("11_o7tcy")
+
 [connection signal="pressed" from="Window/ColorRect/TopBar/Panel/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Window/Button2" to="." method="_on_button_2_pressed"]
@@ -1626,3 +1719,7 @@ shape = SubResource("RectangleShape2D_g16au")
 [connection signal="pressed" from="GameWindow/TopBar/Panel/CloseThreeButton" to="." method="_on_close_three_button_pressed"]
 [connection signal="pressed" from="StatsWindow/ColorRect/TopBar/Panel/CloseTwoButton" to="." method="_on_close_two_button_pressed"]
 [connection signal="pressed" from="SettingsWindow/ColorRect/TopBar/Panel/CloseFour" to="." method="_on_close_four_pressed"]
+[connection signal="pressed" from="SettingsWindow/MuteButton" to="." method="_on_mute_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/QuitButton" to="." method="_on_quit_button_pressed"]
+[connection signal="pressed" from="SettingsWindow/ControlsButton" to="." method="_on_controls_button_pressed"]
+[connection signal="pressed" from="ControlsWindow/ColorRect/TopBar/Panel/CloseFive" to="." method="_on_close_five_pressed"]

@@ -41,6 +41,7 @@ var gameOpened = false
 var gameCurrentlyOpened = false
 var statsCurrentlyOpened = false
 var settingsCurrentlyOpened = false
+var controlsCurrentlyOpened = false
 
 
 var gameRunning = false
@@ -61,6 +62,8 @@ var energy_timer = 0.0
 var hunger = 100
 var hunger_timer = 0.0
 var is_forced_sleeping = false
+
+var is_muted = false
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
@@ -118,14 +121,17 @@ var is_forced_sleeping = false
 @onready var infoCollision = $Window/Area2D
 @onready var gameCollision = $GameWindow/Area2D
 @onready var settingsCollision = $SettingsWindow/Area2D
+@onready var controlsCollision = $ControlsWindow/Area2D
 
 @onready var settingsWindow = $SettingsWindow
+@onready var controlsWindow = $ControlsWindow
 
 func save_stats():
 	var config = ConfigFile.new()
 	config.set_value("pet", "happiness", happiness)
 	config.set_value("pet", "energy", energy)
 	config.set_value("pet", "hunger", hunger)
+	config.set_value("settings", "muted", is_muted)
 	config.save("user://pet.cfg")
 
 func load_stats():
@@ -134,13 +140,36 @@ func load_stats():
 		happiness = clamp(config.get_value("pet", "happiness", 100), 0, 100)
 		energy = clamp(config.get_value("pet", "energy", 100), 0, 100)
 		hunger = clamp(config.get_value("pet", "hunger", 100), 0, 100)
+		is_muted = config.get_value("settings", "muted", false)
 
+
+func apply_mute():
+	AudioServer.set_bus_mute(AudioServer.get_bus_index("Master"), is_muted)
+	var mute_button = get_node_or_null("SettingsWindow/MuteButton")
+	if mute_button:
+		mute_button.text = "UNMUTE" if is_muted else "MUTE"
+		
+	
+func get_collision_rect(w: Window, a: Area2D) -> Rect2:
+	for child in a.get_children():
+		if child is CollisionShape2D and child.shape is RectangleShape2D:
+			var shape_size = child.shape.size
+			var local_rect = child.global_transform * Rect2(-shape_size / 2.0, shape_size)
+			return Rect2(local_rect.position + Vector2(w.position), local_rect.size)
+	return Rect2(Vector2(w.get_position_with_decorations()), Vector2(w.get_size_with_decorations()))
 
 func get_blocking_rects() -> Array:
 	var rects = []
-	for w in [window, gameWindow, statsWindow]:
-		if w.visible:
-			rects.append(Rect2(Vector2(w.get_position_with_decorations()), Vector2(w.get_size_with_decorations())))
+	var pairs = [
+		[window, infoCollision],
+		[gameWindow, gameCollision],
+		[statsWindow, statsCollision],
+		[settingsWindow, settingsCollision],
+		[controlsWindow, controlsCollision]
+	]
+	for p in pairs:
+		if p[0].visible:
+			rects.append(get_collision_rect(p[0], p[1]))
 	return rects
 
 func get_ground_y(pos: Vector2) -> float:
@@ -159,6 +188,7 @@ func face(dir_x: float):
 
 func _ready():
 	load_stats()
+	apply_mute()
 	screen_size = Vector2(DisplayServer.screen_get_size())
 	animated_sprite.play("Run")
 	area.input_event.connect(_on_area_input)
@@ -715,3 +745,28 @@ func _on_close_three_button_pressed() -> void:
 func _on_close_four_pressed() -> void:
 	settingsWindow.hide()
 	settingsCurrentlyOpened = false
+
+
+func _on_mute_button_pressed() -> void:
+	is_muted = !is_muted
+	apply_mute()
+	save_stats()
+	
+
+
+func _on_quit_button_pressed() -> void:
+	get_tree().quit()
+
+
+func _on_close_five_pressed() -> void:
+	controlsWindow.hide()
+	controlsCurrentlyOpened = false
+
+
+func _on_controls_button_pressed() -> void:
+		controlsCurrentlyOpened = !controlsCurrentlyOpened
+		if controlsCurrentlyOpened:
+			save_stats()
+			controlsWindow.show()
+		else:
+			controlsWindow.hide()
