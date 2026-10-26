@@ -11,6 +11,14 @@ const HUNGER_DECAY = 2
 const ENERGY_INTERVAL = 40.0
 const ENERGY_DECAY = 2
 const TREE_START_X = 555
+const COLLISION_EPSILON = 1.0
+const WALL_BOUNCE = 0.5
+const CEILING_BOUNCE = 0.3
+const ENERGY_SLEEP_THRESHOLD = 10
+const ENERGY_WAKE_LEVEL = 30
+const ENERGY_SLEEP_RECOVERY = 4.0
+const LAND_BOUNCE = 0.5
+const BOUNCE_MIN_SPEED = 700.0
 
 
 var speed = 300
@@ -32,6 +40,8 @@ var menuCurrentlyOpened = false
 var gameOpened = false
 var gameCurrentlyOpened = false
 var statsCurrentlyOpened = false
+var settingsCurrentlyOpened = false
+
 
 var gameRunning = false
 var is_jumping = false
@@ -50,6 +60,7 @@ var energy = 100
 var energy_timer = 0.0
 var hunger = 100
 var hunger_timer = 0.0
+var is_forced_sleeping = false
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
@@ -103,6 +114,12 @@ var hunger_timer = 0.0
 @onready var heartFour = $StatsWindow/Heart4
 @onready var heartFive = $StatsWindow/Heart5
 
+@onready var statsCollision = $StatsWindow/Area2D
+@onready var infoCollision = $Window/Area2D
+@onready var gameCollision = $GameWindow/Area2D
+@onready var settingsCollision = $SettingsWindow/Area2D
+
+@onready var settingsWindow = $SettingsWindow
 
 func save_stats():
 	var config = ConfigFile.new()
@@ -119,6 +136,27 @@ func load_stats():
 		hunger = clamp(config.get_value("pet", "hunger", 100), 0, 100)
 
 
+func get_blocking_rects() -> Array:
+	var rects = []
+	for w in [window, gameWindow, statsWindow]:
+		if w.visible:
+			rects.append(Rect2(Vector2(w.get_position_with_decorations()), Vector2(w.get_size_with_decorations())))
+	return rects
+
+func get_ground_y(pos: Vector2) -> float:
+	var ground = taskbar_y - window_size.y
+	for r in get_blocking_rects():
+		var overlaps_x = pos.x + window_size.x > r.position.x and pos.x < r.end.x
+		if overlaps_x and pos.y + window_size.y <= r.position.y + COLLISION_EPSILON:
+			ground = min(ground, r.position.y - window_size.y)
+	return ground
+
+func face(dir_x: float):
+	if abs(dir_x) > 1.0:
+		direction.x = sign(dir_x)
+		animated_sprite.flip_h = direction.x < 0
+
+
 func _ready():
 	load_stats()
 	screen_size = Vector2(DisplayServer.screen_get_size())
@@ -129,11 +167,14 @@ func _ready():
 	menu.add_item("Feed", 1)
 	menu.add_item("Play", 2)
 	menu.add_item("Stats", 3)
+	menu.add_item("Settings", 4)
 	gameCat.animation_finished.connect(_on_game_cat_animation_finished)
 	gameArea.area_entered.connect(_on_game_cat_hit)
 	window.close_requested.connect(_on_window_close_requested)
 	gameWindow.close_requested.connect(_on_game_window_close_requested)
 	statsWindow.close_requested.connect(_on_stats_window_close_requested)
+	settingsWindow.close_requested.connect(_on_stats_window_close_requested)
+
 
 
 func _on_window_close_requested():
@@ -195,7 +236,6 @@ func _on_menu_pressed(id):
 	if id == 2:
 		gameCurrentlyOpened = !gameCurrentlyOpened
 		if gameCurrentlyOpened:
-			happiness = min(happiness + 10, 100)
 			save_stats()
 			gameWindow.show()
 			readyText.show()
@@ -214,6 +254,12 @@ func _on_menu_pressed(id):
 			statsWindow.show()
 		else:
 			statsWindow.hide()
+	if id == 4:
+		settingsCurrentlyOpened = !settingsCurrentlyOpened
+		if settingsCurrentlyOpened:
+			settingsWindow.show()
+		else:
+			settingsWindow.hide()
 
 func _on_clicked():
 	particles.restart()
@@ -357,7 +403,7 @@ func _physics_process(delta: float) -> void:
 		spadeThree.hide()
 		spadeFour.hide()
 		spadeFive.hide()	
-	
+		
 	if happiness_timer >= HAPPINESS_INTERVAL:
 		happiness_timer -= HAPPINESS_INTERVAL
 		happiness = max(happiness - HAPPINESS_DECAY, 0)
@@ -375,7 +421,7 @@ func _physics_process(delta: float) -> void:
 		
 	if jump_cooldown_timer > 0:
 		jump_cooldown_timer -= delta
-
+	
 	if gameRunning:
 		obstacle.position.x += -500 * delta
 		treeOne.position.x += -350 * delta
@@ -387,6 +433,7 @@ func _physics_process(delta: float) -> void:
 		if obstacle.position.x < -50:
 			obstacle.position.x = OBSTACLE_START_X + randi_range(0, 300)
 			score += 1
+			happiness = min(happiness + 5, 100)
 			if score % 5 == 0:
 				pointSound.play()
 		if treeOne.position.x < -120:
@@ -416,6 +463,8 @@ func _physics_process(delta: float) -> void:
 				_on_clicked()
 			elif velocity.length() > 50:
 				is_thrown = true
+				animated_sprite.play("Pounce")
+				face(velocity.x)
 				var r = randi() % 2
 				if r == 0:
 					meowSound.play()
@@ -430,9 +479,8 @@ func _physics_process(delta: float) -> void:
 			if mouse_pos.distance_to(press_pos) < DRAG_THRESHOLD:
 				return
 			drag_moved = true
+			animated_sprite.play("Crouch")
 			last_mouse = mouse_pos
-			if not is_idling:
-				animated_sprite.play("Idle")
 
 		velocity = velocity.lerp((mouse_pos - last_mouse) / delta, 0.5)
 		last_mouse = mouse_pos
@@ -465,21 +513,90 @@ func _physics_process(delta: float) -> void:
 			gameCat.play("Jump")
 			jumpSound.play()
 
+	if is_thrown:
+		is_forced_sleeping = false
+	elif energy < ENERGY_SLEEP_THRESHOLD and not is_forced_sleeping:
+		is_forced_sleeping = true
+		purrSound.play()
+
+	if is_forced_sleeping:
+		energy = min(energy + ENERGY_SLEEP_RECOVERY * delta, 100)
+		is_idling = true
+		idle_timer = 1.0
+		speed = 0
+		if animated_sprite.animation != "Sleep":
+			animated_sprite.play("Sleep")
+		if energy >= ENERGY_WAKE_LEVEL:
+			is_forced_sleeping = false
+			idle_timer = 0.0
+			save_stats()
+
 	var window_position = Vector2(DisplayServer.window_get_position())
-	var ground_y = taskbar_y - window_size.y
 
 	if is_thrown:
+		var rects = get_blocking_rects()
+		var old_pos = window_position
+		var new_pos = old_pos
+		var vx = velocity.x
 		velocity.y += 1500 * delta
-		window_position += velocity * delta
-		window_position.x = clamp(window_position.x, 0, screen_size.x - window_size.x)
-		if window_position.y < 0:
-			window_position.y = 0
-			velocity.y = 0
-		if window_position.y >= ground_y and velocity.y > 0:
-			window_position.y = ground_y
+		var vy = velocity.y
+
+		new_pos.x += vx * delta
+		var max_x = screen_size.x - window_size.x
+		if new_pos.x < 0:
+			new_pos.x = 0
+			velocity.x = abs(vx) * WALL_BOUNCE
+			face(velocity.x)
+		elif new_pos.x > max_x:
+			new_pos.x = max_x
+			velocity.x = -abs(vx) * WALL_BOUNCE
+			face(velocity.x)
+		for r in rects:
+			var overlaps_y = old_pos.y + window_size.y > r.position.y + COLLISION_EPSILON and old_pos.y < r.end.y - COLLISION_EPSILON
+			if not overlaps_y:
+				continue
+			if vx > 0 and old_pos.x + window_size.x <= r.position.x + COLLISION_EPSILON and new_pos.x + window_size.x > r.position.x:
+				new_pos.x = r.position.x - window_size.x
+				velocity.x = -abs(vx) * WALL_BOUNCE
+				face(-1.0 * 2.0)
+			elif vx < 0 and old_pos.x >= r.end.x - COLLISION_EPSILON and new_pos.x < r.end.x:
+				new_pos.x = r.end.x
+				velocity.x = abs(vx) * WALL_BOUNCE
+				face(1.0 * 2.0)
+
+		var landed = false
+		new_pos.y += vy * delta
+		for r in rects:
+			var overlaps_x = new_pos.x + window_size.x > r.position.x and new_pos.x < r.end.x
+			if not overlaps_x:
+				continue
+			if vy > 0 and old_pos.y + window_size.y <= r.position.y + COLLISION_EPSILON and new_pos.y + window_size.y > r.position.y:
+				new_pos.y = r.position.y - window_size.y
+				if vy > BOUNCE_MIN_SPEED:
+					velocity.y = -vy * LAND_BOUNCE
+				else:
+					landed = true
+			elif vy < 0 and old_pos.y >= r.end.y - COLLISION_EPSILON and new_pos.y < r.end.y:
+				new_pos.y = r.end.y
+				velocity.y = abs(vy) * CEILING_BOUNCE
+
+		if new_pos.y < 0:
+			new_pos.y = 0
+			velocity.y = abs(velocity.y) * WALL_BOUNCE
+
+		var thrown_ground_y = taskbar_y - window_size.y
+		if new_pos.y >= thrown_ground_y and vy > 0:
+			new_pos.y = thrown_ground_y
+			if vy > BOUNCE_MIN_SPEED:
+				velocity.y = -vy * LAND_BOUNCE
+			else:
+				landed = true
+
+		if landed:
 			is_thrown = false
 			velocity = Vector2()
-		DisplayServer.window_set_position(Vector2i(window_position))
+
+		DisplayServer.window_set_position(Vector2i(new_pos))
 		return
 
 	if is_idling:
@@ -488,6 +605,8 @@ func _physics_process(delta: float) -> void:
 			is_idling = false
 			speed = 300
 			animated_sprite.play("Run")
+
+	var ground_y = get_ground_y(window_position)
 
 	if window_position.y < ground_y:
 		animated_sprite.play("Idle")
@@ -498,11 +617,23 @@ func _physics_process(delta: float) -> void:
 		window_position.y = ground_y
 		if not is_idling:
 			animated_sprite.play("Run")
-			window_position.x += direction.x * speed * delta
-			window_position.x = clamp(window_position.x, 0, screen_size.x - window_size.x)
-			if window_position.x <= 0 or window_position.x >= screen_size.x - window_size.x:
+			var new_x = window_position.x + direction.x * speed * delta
+			new_x = clamp(new_x, 0, screen_size.x - window_size.x)
+			var hit_window = false
+			for r in get_blocking_rects():
+				var overlaps_y = window_position.y + window_size.y > r.position.y + COLLISION_EPSILON and window_position.y < r.end.y - COLLISION_EPSILON
+				if not overlaps_y:
+					continue
+				if direction.x > 0 and window_position.x + window_size.x <= r.position.x + COLLISION_EPSILON and new_x + window_size.x > r.position.x:
+					new_x = r.position.x - window_size.x
+					hit_window = true
+				elif direction.x < 0 and window_position.x >= r.end.x - COLLISION_EPSILON and new_x < r.end.x:
+					new_x = r.end.x
+					hit_window = true
+			window_position.x = new_x
+			if hit_window or window_position.x <= 0 or window_position.x >= screen_size.x - window_size.x:
 				direction.x *= -1
-				animated_sprite.flip_h = !animated_sprite.flip_h
+				animated_sprite.flip_h = direction.x < 0
 				maybe_idle()
 
 	DisplayServer.window_set_position(Vector2i(window_position))
@@ -579,3 +710,8 @@ func _on_close_two_button_pressed() -> void:
 func _on_close_three_button_pressed() -> void:
 	gameWindow.hide()
 	gameCurrentlyOpened = false
+
+
+func _on_close_four_pressed() -> void:
+	settingsWindow.hide()
+	settingsCurrentlyOpened = false
