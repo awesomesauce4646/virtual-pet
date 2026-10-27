@@ -19,6 +19,7 @@ const ENERGY_WAKE_LEVEL = 30
 const ENERGY_SLEEP_RECOVERY = 4.0
 const LAND_BOUNCE = 0.5
 const BOUNCE_MIN_SPEED = 700.0
+const MIN_BOING_SPEED = 100.0
 
 
 var speed = 300
@@ -94,6 +95,7 @@ var is_muted = false
 @onready var purrSound = $PurrSound
 @onready var eatingSound = $NomSound
 @onready var pointSound = $PointSound
+@onready var boingSound = $BoingSound
 
 @onready var treeOne = $GameWindow/Tree1
 @onready var treeTwo = $GameWindow/Tree2
@@ -148,8 +150,11 @@ func apply_mute():
 	var mute_button = get_node_or_null("SettingsWindow/MuteButton")
 	if mute_button:
 		mute_button.text = "UNMUTE" if is_muted else "MUTE"
-		
-	
+
+func play_boing(strength: float):
+	if strength > MIN_BOING_SPEED:
+		boingSound.play()
+
 func get_collision_rect(w: Window, a: Area2D) -> Rect2:
 	for child in a.get_children():
 		if child is CollisionShape2D and child.shape is RectangleShape2D:
@@ -577,10 +582,12 @@ func _physics_process(delta: float) -> void:
 			new_pos.x = 0
 			velocity.x = abs(vx) * WALL_BOUNCE
 			face(velocity.x)
+			play_boing(abs(vx))
 		elif new_pos.x > max_x:
 			new_pos.x = max_x
 			velocity.x = -abs(vx) * WALL_BOUNCE
 			face(velocity.x)
+			play_boing(abs(vx))
 		for r in rects:
 			var overlaps_y = old_pos.y + window_size.y > r.position.y + COLLISION_EPSILON and old_pos.y < r.end.y - COLLISION_EPSILON
 			if not overlaps_y:
@@ -589,10 +596,12 @@ func _physics_process(delta: float) -> void:
 				new_pos.x = r.position.x - window_size.x
 				velocity.x = -abs(vx) * WALL_BOUNCE
 				face(-1.0 * 2.0)
+				play_boing(abs(vx))
 			elif vx < 0 and old_pos.x >= r.end.x - COLLISION_EPSILON and new_pos.x < r.end.x:
 				new_pos.x = r.end.x
 				velocity.x = abs(vx) * WALL_BOUNCE
 				face(1.0 * 2.0)
+				play_boing(abs(vx))
 
 		var landed = false
 		new_pos.y += vy * delta
@@ -604,21 +613,25 @@ func _physics_process(delta: float) -> void:
 				new_pos.y = r.position.y - window_size.y
 				if vy > BOUNCE_MIN_SPEED:
 					velocity.y = -vy * LAND_BOUNCE
+					play_boing(vy)
 				else:
 					landed = true
 			elif vy < 0 and old_pos.y >= r.end.y - COLLISION_EPSILON and new_pos.y < r.end.y:
 				new_pos.y = r.end.y
 				velocity.y = abs(vy) * CEILING_BOUNCE
+				play_boing(abs(vy))
 
 		if new_pos.y < 0:
 			new_pos.y = 0
 			velocity.y = abs(velocity.y) * WALL_BOUNCE
+			play_boing(abs(vy))
 
 		var thrown_ground_y = taskbar_y - window_size.y
 		if new_pos.y >= thrown_ground_y and vy > 0:
 			new_pos.y = thrown_ground_y
 			if vy > BOUNCE_MIN_SPEED:
 				velocity.y = -vy * LAND_BOUNCE
+				play_boing(vy)
 			else:
 				landed = true
 

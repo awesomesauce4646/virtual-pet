@@ -28,6 +28,7 @@
 [ext_resource type="AudioStream" uid="uid://dwqocg0fkhdje" path="res://sounds/nom.mp3" id="18_myjb5"]
 [ext_resource type="Texture2D" uid="uid://bg8pckie1urtb" path="res://images/spade.webp" id="18_sjut6"]
 [ext_resource type="AudioStream" uid="uid://bx40w80f7qgs8" path="res://sounds/point.wav" id="20_djl34"]
+[ext_resource type="AudioStream" uid="uid://bvpygspgj4o0s" path="res://sounds/boing.mp3" id="29_awnet"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dcwah"]
 atlas = ExtResource("2_slpjv")
@@ -1711,6 +1712,11 @@ H - INFO WINDOW
 RIGHT CLICK BEAN - MENU
 "
 script = ExtResource("11_o7tcy")
+
+[node name="BoingSound" type="AudioStreamPlayer2D" parent="." unique_id=736541691]
+stream = ExtResource("29_awnet")
+volume_db = -11.419
+pitch_scale = 1.56
 
 [connection signal="pressed" from="Window/ColorRect/TopBar/Panel/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
