@@ -20,6 +20,10 @@ const ENERGY_SLEEP_RECOVERY = 4.0
 const LAND_BOUNCE = 0.5
 const BOUNCE_MIN_SPEED = 700.0
 const MIN_BOING_SPEED = 100.0
+const FOOD_REACH = 45.0
+const FOOD_GRAVITY = 1500.0
+const LEDGE_JUMP_SPEED = 250.0
+const LEDGE_TRIGGER_DISTANCE = 10.0
 
 
 var speed = 300
@@ -65,6 +69,15 @@ var hunger_timer = 0.0
 var is_forced_sleeping = false
 
 var is_muted = false
+
+var is_carrying_food = false
+var food_click_armed = false
+var food_falling = false
+var food_ready = false
+var food_vy = 0.0
+var food_y = 0.0
+var was_walking = false
+var thrown_by_user = false
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
@@ -127,6 +140,7 @@ var is_muted = false
 
 @onready var settingsWindow = $SettingsWindow
 @onready var controlsWindow = $ControlsWindow
+@onready var foodWindow = $FoodWindow
 
 func save_stats():
 	var config = ConfigFile.new()
@@ -152,7 +166,7 @@ func apply_mute():
 		mute_button.text = "UNMUTE" if is_muted else "MUTE"
 
 func play_boing(strength: float):
-	if strength > MIN_BOING_SPEED:
+	if strength > MIN_BOING_SPEED and thrown_by_user:
 		boingSound.play()
 
 func get_collision_rect(w: Window, a: Area2D) -> Rect2:
@@ -160,7 +174,7 @@ func get_collision_rect(w: Window, a: Area2D) -> Rect2:
 		if child is CollisionShape2D and child.shape is RectangleShape2D:
 			var shape_size = child.shape.size
 			var local_rect = child.global_transform * Rect2(-shape_size / 2.0, shape_size)
-			return Rect2(local_rect.position + Vector2(w.position), local_rect.size)
+			return Rect2((local_rect.position + Vector2(w.position)).round(), local_rect.size.round())
 	return Rect2(Vector2(w.get_position_with_decorations()), Vector2(w.get_size_with_decorations()))
 
 func get_blocking_rects() -> Array:
@@ -176,6 +190,32 @@ func get_blocking_rects() -> Array:
 		if p[0].visible:
 			rects.append(get_collision_rect(p[0], p[1]))
 	return rects
+
+func at_ledge(pos: Vector2, dir_x: float) -> bool:
+	if dir_x == 0.0:
+		return false
+	if pos.y >= taskbar_y - window_size.y - COLLISION_EPSILON:
+		return false
+	var center_x = pos.x + window_size.x / 2.0
+	for r in get_blocking_rects():
+		var on_top = abs(pos.y + window_size.y - r.position.y) <= COLLISION_EPSILON * 2.0
+		var overlaps_x = pos.x + window_size.x > r.position.x and pos.x < r.end.x
+		if on_top and overlaps_x:
+			if dir_x > 0 and center_x >= r.end.x - LEDGE_TRIGGER_DISTANCE:
+				return true
+			if dir_x < 0 and center_x <= r.position.x + LEDGE_TRIGGER_DISTANCE:
+				return true
+	return false
+
+func start_ledge_jump():
+	is_thrown = true
+	thrown_by_user = false
+	was_walking = false
+	velocity = Vector2(direction.x * speed, -LEDGE_JUMP_SPEED)
+	if animated_sprite.sprite_frames.has_animation("Jump"):
+		animated_sprite.play("Jump")
+	else:
+		animated_sprite.play("Pounce")
 
 func get_ground_y(pos: Vector2) -> float:
 	var ground = taskbar_y - window_size.y
@@ -261,13 +301,7 @@ func _on_menu_pressed(id):
 		energy = min(energy + 10, 100)
 		save_stats()
 	if id == 1:
-		is_idling = true
-		idle_timer = .8
-		speed = 0
-		animated_sprite.play("Feed")
-		eatingSound.play()
-		hunger = min(hunger + 10, 100)
-		save_stats()
+		spawn_food()
 	if id == 2:
 		gameCurrentlyOpened = !gameCurrentlyOpened
 		if gameCurrentlyOpened:
@@ -296,6 +330,41 @@ func _on_menu_pressed(id):
 		else:
 			settingsWindow.hide()
 
+func spawn_food():
+	var mouse_pos = Vector2(DisplayServer.mouse_get_position())
+	foodWindow.position = Vector2i(mouse_pos - Vector2(foodWindow.size) / 2.0)
+	foodWindow.show()
+	is_carrying_food = true
+	food_click_armed = false
+
+func drop_food():
+	is_carrying_food = false
+	food_click_armed = false
+	food_falling = true
+	food_ready = false
+	food_vy = 0.0
+	food_y = float(foodWindow.position.y)
+
+func update_food(delta: float):
+	if food_falling:
+		food_vy += FOOD_GRAVITY * delta
+		food_y += food_vy * delta
+		var food_floor_y = taskbar_y - foodWindow.size.y
+		if food_y >= food_floor_y:
+			food_y = food_floor_y
+			food_falling = false
+			food_ready = true
+		foodWindow.position = Vector2i(foodWindow.position.x, int(food_y))
+
+func feed_bean():
+	is_idling = true
+	idle_timer = .8
+	speed = 0
+	animated_sprite.play("Feed")
+	eatingSound.play()
+	hunger = min(hunger + 10, 100)
+	save_stats()
+
 func _on_clicked():
 	particles.restart()
 	if happiness < 99.5:
@@ -315,6 +384,7 @@ func _on_clicked():
 		meowTwoSound.play()
 
 func _physics_process(delta: float) -> void:
+	update_food(delta)
 	if happiness > 80 && hunger > 80:
 		speed = 500
 	elif happiness > 60 && hunger > 60:
@@ -498,6 +568,7 @@ func _physics_process(delta: float) -> void:
 				_on_clicked()
 			elif velocity.length() > 50:
 				is_thrown = true
+				thrown_by_user = true
 				animated_sprite.play("Pounce")
 				face(velocity.x)
 				var r = randi() % 2
@@ -521,6 +592,23 @@ func _physics_process(delta: float) -> void:
 		last_mouse = mouse_pos
 		DisplayServer.window_set_position(Vector2i(mouse_pos - drag_offset))
 		return
+
+	if is_carrying_food:
+		var food_mouse = Vector2(DisplayServer.mouse_get_position())
+		foodWindow.position = Vector2i(food_mouse - Vector2(foodWindow.size) / 2.0)
+		var bean_center_x = DisplayServer.window_get_position().x + window_size.x / 2.0
+		var food_center_x = foodWindow.position.x + foodWindow.size.x / 2.0
+		face(food_center_x - bean_center_x)
+		is_idling = true
+		idle_timer = 0.5
+		speed = 0
+		if not is_forced_sleeping and animated_sprite.animation != "Idle":
+			animated_sprite.play("Idle")
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			if food_click_armed:
+				drop_food()
+		else:
+			food_click_armed = true
 
 	if menu.visible:
 		return
@@ -611,7 +699,7 @@ func _physics_process(delta: float) -> void:
 				continue
 			if vy > 0 and old_pos.y + window_size.y <= r.position.y + COLLISION_EPSILON and new_pos.y + window_size.y > r.position.y:
 				new_pos.y = r.position.y - window_size.y
-				if vy > BOUNCE_MIN_SPEED:
+				if vy > BOUNCE_MIN_SPEED and thrown_by_user:
 					velocity.y = -vy * LAND_BOUNCE
 					play_boing(vy)
 				else:
@@ -629,7 +717,7 @@ func _physics_process(delta: float) -> void:
 		var thrown_ground_y = taskbar_y - window_size.y
 		if new_pos.y >= thrown_ground_y and vy > 0:
 			new_pos.y = thrown_ground_y
-			if vy > BOUNCE_MIN_SPEED:
+			if vy > BOUNCE_MIN_SPEED and thrown_by_user:
 				velocity.y = -vy * LAND_BOUNCE
 				play_boing(vy)
 			else:
@@ -651,30 +739,52 @@ func _physics_process(delta: float) -> void:
 
 	var ground_y = get_ground_y(window_position)
 
-	if window_position.y < ground_y:
-		animated_sprite.play("Idle")
-		window_position.y += 600 * delta
-		if window_position.y > ground_y:
-			window_position.y = ground_y
+	if window_position.y < ground_y - COLLISION_EPSILON:
+		if was_walking:
+			start_ledge_jump()
+		else:
+			is_thrown = true
+			thrown_by_user = false
+			velocity = Vector2()
+			animated_sprite.play("Idle")
+			was_walking = false
 	else:
 		window_position.y = ground_y
+		was_walking = not is_idling
+		var seeking_food = (food_falling or food_ready) and not is_carrying_food
 		if not is_idling:
 			animated_sprite.play("Run")
-			var new_x = window_position.x + direction.x * speed * delta
+			var step_dir = direction.x
+			if seeking_food:
+				var food_dx = (foodWindow.position.x + foodWindow.size.x / 2.0) - (window_position.x + window_size.x / 2.0)
+				face(food_dx)
+				if abs(food_dx) <= FOOD_REACH:
+					step_dir = 0.0
+					if food_ready:
+						food_ready = false
+						foodWindow.hide()
+						feed_bean()
+					else:
+						animated_sprite.play("Idle")
+				else:
+					step_dir = sign(food_dx)
+			var new_x = window_position.x + step_dir * speed * delta
 			new_x = clamp(new_x, 0, screen_size.x - window_size.x)
 			var hit_window = false
-			for r in get_blocking_rects():
+			for r in ([] if seeking_food else get_blocking_rects()):
 				var overlaps_y = window_position.y + window_size.y > r.position.y + COLLISION_EPSILON and window_position.y < r.end.y - COLLISION_EPSILON
 				if not overlaps_y:
 					continue
-				if direction.x > 0 and window_position.x + window_size.x <= r.position.x + COLLISION_EPSILON and new_x + window_size.x > r.position.x:
+				if step_dir > 0 and window_position.x + window_size.x <= r.position.x + COLLISION_EPSILON and new_x + window_size.x > r.position.x:
 					new_x = r.position.x - window_size.x
 					hit_window = true
-				elif direction.x < 0 and window_position.x >= r.end.x - COLLISION_EPSILON and new_x < r.end.x:
+				elif step_dir < 0 and window_position.x >= r.end.x - COLLISION_EPSILON and new_x < r.end.x:
 					new_x = r.end.x
 					hit_window = true
 			window_position.x = new_x
-			if hit_window or window_position.x <= 0 or window_position.x >= screen_size.x - window_size.x:
+			if at_ledge(window_position, step_dir):
+				start_ledge_jump()
+			elif not seeking_food and (hit_window or window_position.x <= 0 or window_position.x >= screen_size.x - window_size.x):
 				direction.x *= -1
 				animated_sprite.flip_h = direction.x < 0
 				maybe_idle()
@@ -701,6 +811,7 @@ func _on_area_input(_viewport, event, _shape_idx):
 		if event.pressed:
 			is_dragging = true
 			is_thrown = false
+			was_walking = false
 			drag_moved = false
 			var mouse_pos = Vector2(DisplayServer.mouse_get_position())
 			press_pos = mouse_pos

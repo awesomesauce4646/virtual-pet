@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://bg8pckie1urtb" path="res://images/spade.webp" id="18_sjut6"]
 [ext_resource type="AudioStream" uid="uid://bx40w80f7qgs8" path="res://sounds/point.wav" id="20_djl34"]
 [ext_resource type="AudioStream" uid="uid://bvpygspgj4o0s" path="res://sounds/boing.mp3" id="29_awnet"]
+[ext_resource type="Texture2D" uid="uid://btsx582jq6d6j" path="res://images/foodFull.png" id="30_n2wdx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dcwah"]
 atlas = ExtResource("2_slpjv")
@@ -851,8 +852,14 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pxe1l"]
+size = Vector2(444, 363)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_g16au"]
-size = Vector2(339, 363)
+size = Vector2(357.625, 364)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gk0tr"]
+size = Vector2(339, 364)
 
 [node name="Node2D" type="Node2D" unique_id=625584119]
 script = ExtResource("1_s0gbd")
@@ -1489,10 +1496,11 @@ texture = ExtResource("18_sjut6")
 expand_mode = 1
 
 [node name="Area2D" type="Area2D" parent="StatsWindow" unique_id=1464405767]
+visible = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StatsWindow/Area2D" unique_id=220880784]
-position = Vector2(221, 178)
-shape = SubResource("RectangleShape2D_g16au")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StatsWindow/Area2D" unique_id=1625463298]
+position = Vector2(223, 185.5)
+shape = SubResource("RectangleShape2D_pxe1l")
 
 [node name="DeathSound" type="AudioStreamPlayer2D" parent="." unique_id=143689771]
 stream = ExtResource("14_dkavk")
@@ -1620,7 +1628,7 @@ text = "CONTROLS"
 [node name="Area2D" type="Area2D" parent="SettingsWindow" unique_id=818147669]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SettingsWindow/Area2D" unique_id=803909220]
-position = Vector2(159.5, 185.5)
+position = Vector2(150.1875, 185)
 shape = SubResource("RectangleShape2D_g16au")
 
 [node name="ControlsWindow" type="Window" parent="." unique_id=1180375404]
@@ -1692,9 +1700,9 @@ script = ExtResource("11_o7tcy")
 
 [node name="Area2D" type="Area2D" parent="ControlsWindow" unique_id=2107784985]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlsWindow/Area2D" unique_id=1906717390]
-position = Vector2(159.5, 185.5)
-shape = SubResource("RectangleShape2D_g16au")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ControlsWindow/Area2D" unique_id=1996449174]
+position = Vector2(159.5, 186)
+shape = SubResource("RectangleShape2D_gk0tr")
 
 [node name="Title" type="RichTextLabel" parent="ControlsWindow" unique_id=1952388182]
 offset_left = 28.0
@@ -1717,6 +1725,20 @@ script = ExtResource("11_o7tcy")
 stream = ExtResource("29_awnet")
 volume_db = -11.419
 pitch_scale = 1.56
+
+[node name="FoodWindow" type="Window" parent="." unique_id=1754698203]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(70, 30)
+visible = false
+borderless = true
+transparent = true
+
+[node name="TextureRect" type="TextureRect" parent="FoodWindow" unique_id=1034096333]
+offset_right = 70.0
+offset_bottom = 30.0
+texture = ExtResource("30_n2wdx")
 
 [connection signal="pressed" from="Window/ColorRect/TopBar/Panel/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="pressed" from="Window/Button" to="." method="_on_button_pressed"]
