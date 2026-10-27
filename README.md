@@ -31,4 +31,4 @@ I used carysaurus cat sprite pack for this project, it's really neat! Check it o
 Sounds from Pixabay and Myinstants, Fonts from Google Fonts, built with Godot.
 
 ## AI Usage
-I used Claude and Gemini to help me debug my math for the throwing mechanic, as well as helping me figure out the collisions for the window so that when Bean is thrown it'd bounce off. 
+I used Claude and Gemini to help me debug my math for the throwing mechanic, as well as helping me figure out the collisions for the window so that when Bean is thrown it'd bounce off. I also used it to help me with the drag food system and figure out how to make Bean look at it and then walk towards it.
