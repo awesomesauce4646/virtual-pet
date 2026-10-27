@@ -14,6 +14,7 @@ const TREE_START_X = 555
 const COLLISION_EPSILON = 1.0
 const WALL_BOUNCE = 0.5
 const CEILING_BOUNCE = 0.3
+const CEILING_CLIP_PIXELS = 8
 const ENERGY_SLEEP_THRESHOLD = 10
 const ENERGY_WAKE_LEVEL = 30
 const ENERGY_SLEEP_RECOVERY = 4.0
@@ -29,7 +30,7 @@ const LEDGE_TRIGGER_DISTANCE = 10.0
 var speed = 300
 var direction = Vector2(1,0)
 var screen_size = Vector2()
-var window_size = Vector2(150,150)
+var window_size = Vector2(150,175)
 
 var idle_timer = 0.0
 var is_idling = false
@@ -78,6 +79,8 @@ var food_vy = 0.0
 var food_y = 0.0
 var was_walking = false
 var thrown_by_user = false
+var sprite_home_position: Vector2
+var ceiling_tween: Tween
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
@@ -230,12 +233,21 @@ func face(dir_x: float):
 		direction.x = sign(dir_x)
 		animated_sprite.flip_h = direction.x < 0
 
+func ceiling_bump():
+	if ceiling_tween and ceiling_tween.is_running():
+		ceiling_tween.kill()
+
+	animated_sprite.position = sprite_home_position + Vector2(0, -CEILING_CLIP_PIXELS)
+	ceiling_tween = create_tween()
+	ceiling_tween.tween_property(animated_sprite, "position", sprite_home_position, 0.12)
+
 
 func _ready():
 	load_stats()
 	apply_mute()
 	screen_size = Vector2(DisplayServer.screen_get_size())
 	animated_sprite.play("Run")
+	sprite_home_position = animated_sprite.position
 	area.input_event.connect(_on_area_input)
 	menu.add_item("Sleep", 0)
 	menu.id_pressed.connect(_on_menu_pressed)
@@ -711,8 +723,10 @@ func _physics_process(delta: float) -> void:
 
 		if new_pos.y < 0:
 			new_pos.y = 0
-			velocity.y = abs(velocity.y) * WALL_BOUNCE
-			play_boing(abs(vy))
+			if vy < 0:
+				velocity.y = abs(vy) * WALL_BOUNCE
+				ceiling_bump()
+				play_boing(abs(vy))
 
 		var thrown_ground_y = taskbar_y - window_size.y
 		if new_pos.y >= thrown_ground_y and vy > 0:

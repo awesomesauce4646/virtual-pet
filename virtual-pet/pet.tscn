@@ -865,12 +865,14 @@ size = Vector2(339, 364)
 script = ExtResource("1_s0gbd")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=789550521]
-position = Vector2(82, 55)
+position = Vector2(82, 79)
 sprite_frames = SubResource("SpriteFrames_0af3v")
-animation = &"Crouch"
+animation = &"Pounce"
+frame = 12
+frame_progress = 1.0
 
 [node name="Area2D" type="Area2D" parent="." unique_id=46219409]
-position = Vector2(-17, -49)
+position = Vector2(-17, -25)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=296506306]
 position = Vector2(93.5, 133.5)
