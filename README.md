@@ -1,6 +1,7 @@
 # Bean Pet
 
 ### A virtual cat for your desktop, named Bean!
+<img width="600" height="357" alt="Screen Recording 2026-10-27 214129" src="https://github.com/user-attachments/assets/3588cacf-67fe-4805-bf1b-6fc8a9ed5fba"/>
 
 ## Download
 
