@@ -1,10 +1,10 @@
 # Bean Pet
-## A virtual cat for your desktop, named Bean!
-![alt text](image.png)
+
+### A virtual cat for your desktop, named Bean!
 
 ## Download
 
-You can download BeanPet at: itch.io something
+You can download BeanPet at: https://marygoat.itch.io/beanpet
 Simply download, unzip, and run!
 
 ## Features
