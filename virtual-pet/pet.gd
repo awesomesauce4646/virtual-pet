@@ -81,6 +81,7 @@ var was_walking = false
 var thrown_by_user = false
 var sprite_home_position: Vector2
 var ceiling_tween: Tween
+var hunger_meow_timer = 0.0
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var gameCat = $GameWindow/GameCat
@@ -377,14 +378,7 @@ func feed_bean():
 	hunger = min(hunger + 10, 100)
 	save_stats()
 
-func _on_clicked():
-	particles.restart()
-	if happiness < 99.5:
-		happiness = happiness + .5
-		save_stats()
-	else:
-		happiness = 100
-		save_stats()
+func play_meow():
 	is_idling = true
 	idle_timer = 1.5
 	speed = 0
@@ -395,20 +389,36 @@ func _on_clicked():
 	else:
 		meowTwoSound.play()
 
+func _on_clicked():
+	particles.restart()
+	if happiness < 99.5:
+		happiness = happiness + .5
+		save_stats()
+	else:
+		happiness = 100
+		save_stats()
+	play_meow()
+
 func _physics_process(delta: float) -> void:
 	update_food(delta)
-	if happiness > 80 && hunger > 80:
+	if happiness > 80 && energy > 80:
 		speed = 500
-	elif happiness > 60 && hunger > 60:
+	elif happiness > 60 && energy > 60:
 		speed = 400
 	else:
 		speed = 300
 	happiness_timer += delta
-	#happinessText.text = "MOOD: " + str(happiness)
 	energy_timer += delta
-	#energyText.text = "ENERGY: " + str(energy)
 	hunger_timer += delta
-	#hungerText.text = "HUNGER: " + str(hunger)
+	
+	if hunger < 60:
+		hunger_meow_timer += delta
+		if hunger_meow_timer >= 30.0:
+			hunger_meow_timer = 0.0
+			play_meow()
+	else:
+		hunger_meow_timer = 0.0
+		
 	
 	if happiness >= 80:
 		clubsOne.show()
